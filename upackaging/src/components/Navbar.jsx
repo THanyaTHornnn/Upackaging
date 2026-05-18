@@ -15,6 +15,7 @@ export default function Navbar() {
           { to:"/",          label:"หน้าแรก"  },
           { to:"/products",  label:"สินค้า"   },
           { to:"/portfolio", label:"ผลงาน"    },
+          { to:"/about",     label:"เกี่ยวกับเรา" },
           { to:"/contact",   label:"ติดต่อ"   },
         ].map(({ to, label }) => (
           <li key={to}>

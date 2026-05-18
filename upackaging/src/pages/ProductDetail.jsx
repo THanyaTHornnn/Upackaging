@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { useCart } from "../store/cartStore";
 
 /* ── ข้อมูลสินค้าทั้งหมด ── เพิ่ม/แก้ที่นี่ */
 const PRODUCTS = {
@@ -180,9 +181,22 @@ export default function ProductDetail() {
   const { id } = useParams();
   const p = PRODUCTS[id];
 
+  const { addItem } = useCart();
+  const navigate = useNavigate();
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [qty, setQty] = useState("");
   const [sent, setSent] = useState(false);
+  const [added, setAdded] = useState(false);
+
+  function handleAddToCart() {
+    addItem(
+      { id, icon: p.icon, name: p.name, price: p.price, moq: p.moq },
+      parseInt(qty) || 1,
+      selectedOptions
+    );
+    setAdded(true);
+    setTimeout(() => setAdded(false), 2000);
+  }
 
   function toggleOption(opt) {
     setSelectedOptions(prev =>
@@ -315,16 +329,21 @@ export default function ProductDetail() {
                 style={{ display:"block", width:"100%", border:"1px solid #e5e7eb", borderRadius:"8px", padding:"10px 12px", fontSize:"13px", marginBottom:"14px", outline:"none", boxSizing:"border-box", fontFamily:"'Sarabun',sans-serif" }}
               />
               <div style={{ display:"flex", gap:"10px" }}>
-                <button onClick={() => setSent(true)} style={{
-                  flex:1, background:"#1D9E75", color:"#fff", border:"none",
-                  padding:"12px", borderRadius:"10px", fontSize:"14px",
-                  fontWeight:600, cursor:"pointer", fontFamily:"'Sarabun',sans-serif",
-                }}>ขอใบเสนอราคา</button>
-                <Link to="/contact" style={{
+                <button onClick={handleAddToCart} style={{
+                  flex:2, background: added ? "#085041" : "#1D9E75",
+                  color:"#fff", border:"none", padding:"12px",
+                  borderRadius:"10px", fontSize:"14px", fontWeight:600,
+                  cursor:"pointer", fontFamily:"'Sarabun',sans-serif",
+                  transition:"background .2s",
+                }}>
+                  {added ? "✅ เพิ่มแล้ว!" : "🛒 เพิ่มลงตะกร้า"}
+                </button>
+                <Link to="/cart" style={{
                   flex:1, textAlign:"center", background:"#fff", color:"#1D9E75",
                   border:"1.5px solid #1D9E75", padding:"12px", borderRadius:"10px",
                   fontSize:"14px", fontWeight:500, textDecoration:"none",
-                }}>ติดต่อเพิ่มเติม</Link>
+                  display:"flex", alignItems:"center", justifyContent:"center",
+                }}>ดูตะกร้า</Link>
               </div>
             </div>
           )}
