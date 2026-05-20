@@ -210,7 +210,7 @@ export default function Contact() {
             <p style={{ fontSize:"13px", color:"#374151", lineHeight:1.8 }}>
               บริษัท ยูดีพี แพ็คเกจจิ้ง จำกัด<br/>
               {/* TODO: ใส่ที่อยู่จริงของบริษัท */}
-              กรุณาอัปเดตที่อยู่จริงที่นี่<br/>
+              {/* กรุณาอัปเดตที่อยู่จริงที่นี่ */}
               กรุงเทพมหานคร
             </p>
             <a href="https://maps.google.com" target="_blank" rel="noreferrer" style={{
