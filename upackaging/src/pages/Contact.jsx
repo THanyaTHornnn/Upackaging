@@ -2,25 +2,13 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { sendEmail } from "../utils/sendEmail";
 
-const inputStyle = {
-  display: "block", width: "100%",
-  border: "1px solid #e5e7eb", borderRadius: "8px",
-  padding: "10px 14px", fontSize: "14px",
-  color: "#1a1a1a", outline: "none",
-  background: "#fff", boxSizing: "border-box",
-  marginBottom: "14px",
-  fontFamily: "'Sarabun', sans-serif",
-  transition: "border-color .15s",
-};
-
 const productTypes = [
   "กล่องบรรจุภัณฑ์", "สติ๊กเกอร์และฉลาก",
   "ถุงกระดาษ", "แผ่นพับ / โบรชัวร์", "อื่นๆ",
 ];
 
 export default function Contact() {
-  const [form, setForm]       = useState({ name:"", company:"", tel:"", email:"", product:"", qty:"", detail:"" });
-  const [focus, setFocus]     = useState("");
+  const [form, setForm] = useState({ name:"", company:"", tel:"", email:"", product:"", qty:"", detail:"" });
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -33,208 +21,136 @@ export default function Contact() {
     e.preventDefault();
     setLoading(true);
     setError("");
-    try{
-      const result = await sendEmail({ ...form });
-      console.log("ส่งอีเมลสำเร็จ:", result);
+    try {
+      await sendEmail({ ...form });
       setSubmitted(true);
-    }catch(err){
-      console.error("ส่งอีเมลไม่สำเร็จ:", err);
+    } catch(err) {
       setError("เกิดข้อผิดพลาดในการส่งข้อมูล กรุณาลองใหม่อีกครั้งหรือโทร 02-408-5680");
-    }finally {
+    } finally {
       setLoading(false);
     }
-    /* TODO: เชื่อม API จริง เช่น EmailJS หรือ backend endpoint */
-    // setTimeout(() => { setLoading(false); setSubmitted(true); }, 1200);
-    
   }
 
-  const field = (name, placeholder, type = "text") => ({
-    name, type, placeholder, value: form[name],
-    onChange: handleChange,
-    onFocus:  () => setFocus(name),
-    onBlur:   () => setFocus(""),
-    style: { ...inputStyle, borderColor: focus === name ? "#1D9E75" : "#e5e7eb",
-             boxShadow: focus === name ? "0 0 0 3px rgba(29,158,117,0.1)" : "none" },
-  });
-
   return (
-    <main style={{ fontFamily: "'Sarabun', sans-serif" }}>
-
-      {/* ── Hero ── */}
-      <section style={{
-        background: "linear-gradient(135deg,#053D31 0%,#1D9E75 100%)",
-        padding: "48px 40px", textAlign: "center",
-      }}>
-        <h1 style={{ color:"#fff", fontSize:"28px", fontWeight:600, marginBottom:"8px" }}>
-          ติดต่อและขอใบเสนอราคา
-        </h1>
-        <p style={{ color:"rgba(255,255,255,0.75)", fontSize:"14px" }}>
-          กรอกรายละเอียด เราติดต่อกลับภายใน 1 ชั่วโมงในวันทำการ
-        </p>
+    <main className="font-['Sarabun'] bg-[#FAFAF8] min-h-screen text-left">
+      {/* Hero Banner */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-[#0A3828] via-[#0D5C44] to-[#1A8A6A] py-12 md:py-16 px-6 text-center">
+        <div className="absolute inset-0 opacity-10 pointer-events-none">
+          <div className="absolute -top-12 -right-12 w-72 h-72 rounded-full bg-[#7EC8C8] blur-2xl" />
+        </div>
+        <div className="relative">
+          <h1 className="text-white text-2xl md:text-4xl font-extrabold mb-3 tracking-tight">ติดต่อสอบถามและขอใบเสนอราคา</h1>
+          <p className="text-white/80 text-xs md:text-sm max-w-md mx-auto">กรอกรายละเอียดสเปคบรรจุภัณฑ์ที่ต้องการ เจ้าหน้าที่จะติดต่อกลับภายใน 1 ชั่วโมงในเวลาทำการ</p>
+        </div>
       </section>
 
-      <section style={{ padding:"48px 40px", display:"grid", gridTemplateColumns:"1fr 380px", gap:"40px", alignItems:"start" }}>
-
-        {/* ── Form ── */}
-        {submitted ? (
-          <div style={{ textAlign:"center", padding:"60px 0" }}>
-            <div style={{ fontSize:"56px", marginBottom:"16px" }}>✅</div>
-            <h2 style={{ fontSize:"22px", fontWeight:600, color:"#085041", marginBottom:"8px" }}>ส่งข้อมูลเรียบร้อยแล้ว!</h2>
-            <p style={{ color:"#6b7280", fontSize:"14px", marginBottom:"24px" }}>
-              ทีมงานจะติดต่อกลับที่เบอร์ <strong>{form.tel}</strong> ภายใน 1 ชั่วโมง
-            </p>
-            <button onClick={() => { setSubmitted(false); setForm({ name:"",company:"",tel:"",email:"",product:"",qty:"",detail:"" }); }} style={{
-              background:"#1D9E75", color:"#fff", border:"none",
-              padding:"12px 28px", borderRadius:"28px",
-              fontSize:"14px", fontWeight:600, cursor:"pointer",
-            }}>ส่งข้อมูลใหม่</button>
-          </div>
-        ) : (
-          <form onSubmit={handleSubmit}>
-            <h2 style={{ fontSize:"18px", fontWeight:600, color:"#1a1a1a", marginBottom:"24px" }}>
-              ฟอร์มขอใบเสนอราคา
-            </h2>
-
-            {/* Row: ชื่อ + บริษัท */}
-            <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"12px" }}>
-              <div>
-                <label style={{ fontSize:"13px", fontWeight:500, color:"#374151", display:"block", marginBottom:"6px" }}>
-                  ชื่อ-นามสกุล <span style={{ color:"#ef4444" }}>*</span>
-                </label>
-                <input {...field("name","สมชาย ใจดี")} required />
-              </div>
-              <div>
-                <label style={{ fontSize:"13px", fontWeight:500, color:"#374151", display:"block", marginBottom:"6px" }}>
-                  ชื่อบริษัท / แบรนด์
-                </label>
-                <input {...field("company","บริษัท ABC จำกัด")} />
-              </div>
+      <section className="max-w-6xl mx-auto px-6 py-12 grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+        {/* Form Container */}
+        <div className="lg:col-span-2 bg-white rounded-2xl border border-gray-100 p-6 md:p-8 shadow-sm">
+          {submitted ? (
+            <div className="text-center py-12">
+              <div className="text-5xl mb-4 animate-bounce">✅</div>
+              <h2 className="text-xl font-bold text-[#0D5C44] mb-2">ส่งข้อมูลคำขอเรียบร้อยแล้ว!</h2>
+              <p className="text-xs md:text-sm text-gray-500 mb-6">ทีมงานฝ่ายขายจะติดต่อกลับที่เบอร์ <strong className="text-gray-800">{form.tel}</strong> เพื่อเสนอราคาพิเศษ</p>
+              <button 
+                onClick={() => { setSubmitted(false); setForm({ name:"", company:"", tel:"", email:"", product:"", qty:"", detail:"" }); }}
+                className="bg-[#0D5C44] text-white px-6 py-2.5 rounded-full font-bold text-xs md:text-sm hover:bg-[#0A3828] transition-colors"
+              >
+                ส่งคำขออื่นเพิ่มเติม
+              </button>
             </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <h2 className="text-base md:text-lg font-bold text-gray-900 border-b border-gray-50 pb-3 mb-4">ฟอร์มรายละเอียดสินค้าสั่งผลิต</h2>
 
-            {/* Row: เบอร์ + email */}
-            <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"12px" }}>
-              <div>
-                <label style={{ fontSize:"13px", fontWeight:500, color:"#374151", display:"block", marginBottom:"6px" }}>
-                  เบอร์โทรศัพท์ <span style={{ color:"#ef4444" }}>*</span>
-                </label>
-                <input {...field("tel","08x-xxx-xxxx","tel")} required />
-              </div>
-              <div>
-                <label style={{ fontSize:"13px", fontWeight:500, color:"#374151", display:"block", marginBottom:"6px" }}>
-                  อีเมล
-                </label>
-                <input {...field("email","example@email.com","email")} />
-              </div>
-            </div>
-
-            {/* ประเภทสินค้า */}
-            <label style={{ fontSize:"13px", fontWeight:500, color:"#374151", display:"block", marginBottom:"6px" }}>
-              ประเภทสินค้าที่ต้องการ <span style={{ color:"#ef4444" }}>*</span>
-            </label>
-            <select name="product" required value={form.product} onChange={handleChange}
-              onFocus={() => setFocus("product")} onBlur={() => setFocus("")}
-              style={{ ...inputStyle, borderColor: focus==="product" ? "#1D9E75" : "#e5e7eb",
-                       boxShadow: focus==="product" ? "0 0 0 3px rgba(29,158,117,0.1)" : "none",
-                       color: form.product ? "#1a1a1a" : "#9ca3af" }}>
-              <option value="" disabled>เลือกประเภทสินค้า</option>
-              {productTypes.map(p => <option key={p} value={p}>{p}</option>)}
-            </select>
-
-            {/* จำนวน */}
-            <label style={{ fontSize:"13px", fontWeight:500, color:"#374151", display:"block", marginBottom:"6px" }}>
-              ปริมาณที่ต้องการ (MOQ)
-            </label>
-            <input {...field("qty","เช่น 500 ใบ, 1,000 ดวง")} />
-
-            {/* รายละเอียด */}
-            <label style={{ fontSize:"13px", fontWeight:500, color:"#374151", display:"block", marginBottom:"6px" }}>
-              รายละเอียดเพิ่มเติม
-            </label>
-            <textarea name="detail" placeholder="ขนาด สี วัสดุ หรือรายละเอียดงานที่ต้องการ..."
-              value={form.detail} onChange={handleChange}
-              onFocus={() => setFocus("detail")} onBlur={() => setFocus("")}
-              rows={4}
-              style={{ ...inputStyle, resize:"vertical", lineHeight:1.6,
-                       borderColor: focus==="detail" ? "#1D9E75" : "#e5e7eb",
-                       boxShadow: focus==="detail" ? "0 0 0 3px rgba(29,158,117,0.1)" : "none" }}
-            />
-
-            {/* Submit */}
-            <button type="submit" disabled={loading} style={{
-              width:"100%", background: loading ? "#9FE1CB" : "#1D9E75",
-              color:"#fff", border:"none", padding:"13px",
-              borderRadius:"10px", fontSize:"15px", fontWeight:600,
-              cursor: loading ? "not-allowed" : "pointer",
-              transition:"background .2s",
-            }}>
-              {loading ? "กำลังส่ง..." : "ส่งข้อมูลขอใบเสนอราคา →"}
-            </button>
-
-            <p style={{ fontSize:"12px", color:"#9ca3af", textAlign:"center", marginTop:"12px" }}>
-              * เราจะไม่นำข้อมูลของคุณไปใช้เพื่อวัตถุประสงค์อื่น
-            </p>
-          </form>
-        )}
-
-        {/* ── Sidebar ── */}
-        <div>
-
-          {/* ข้อมูลติดต่อ */}
-          <div style={{ background:"#F5F3EE", borderRadius:"16px", padding:"24px", marginBottom:"16px" }}>
-            <h3 style={{ fontSize:"15px", fontWeight:600, color:"#1a1a1a", marginBottom:"16px" }}>ข้อมูลติดต่อ</h3>
-            {[
-              { icon:"📞", label:"โทรศัพท์",      value:"02-408-5680",    href:"tel:024085680" },
-              { icon:"💬", label:"Line Official",  value:"@udppackaging",  href:"https://line.me/R/ti/p/@udppackaging" },
-              { icon:"👍", label:"Facebook",       value:"UDP Packaging",  href:"https://facebook.com/udp159" },
-              { icon:"📧", label:"อีเมล",          value:"info@udppackaging.com", href:"mailto:info@udppackaging.com" },
-              { icon:"🕐", label:"เวลาทำการ",      value:"จ–ศ 8:00–17:00 น." },
-            ].map(({ icon, label, value, href }) => (
-              <div key={label} style={{ display:"flex", gap:"12px", marginBottom:"14px", alignItems:"flex-start" }}>
-                <div style={{ width:"36px", height:"36px", borderRadius:"10px", background:"#1D9E75", display:"flex", alignItems:"center", justifyContent:"center", fontSize:"18px", flexShrink:0 }}>
-                  {icon}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="text-xs font-semibold text-gray-700 block mb-1.5">ชื่อ-นามสกุลผู้ติดต่อ <span className="text-red-500">*</span></label>
+                  <input type="text" name="name" required value={form.name} onChange={handleChange} placeholder="สมชาย ใจดี" className="w-full text-xs md:text-sm border border-gray-200 rounded-lg p-3 outline-none focus:border-[#0D5C44] focus:ring-2 focus:ring-[#0D5C44]/10 transition-all font-['Sarabun']" />
                 </div>
                 <div>
-                  <div style={{ fontSize:"11px", color:"#9ca3af" }}>{label}</div>
-                  {href
-                    ? <a href={href} style={{ fontSize:"13px", fontWeight:500, color:"#1D9E75", textDecoration:"none" }}>{value}</a>
-                    : <div style={{ fontSize:"13px", fontWeight:500, color:"#1a1a1a" }}>{value}</div>
-                  }
+                  <label className="text-xs font-semibold text-gray-700 block mb-1.5">ชื่อบริษัท / แบรนด์สินค้า</label>
+                  <input type="text" name="company" value={form.company} onChange={handleChange} placeholder="บริษัท หรือชื่อแบรนด์ของคุณ" className="w-full text-xs md:text-sm border border-gray-200 rounded-lg p-3 outline-none focus:border-[#0D5C44] focus:ring-2 focus:ring-[#0D5C44]/10 transition-all font-['Sarabun']" />
                 </div>
               </div>
-            ))}
-          </div>
 
-          {/* ที่อยู่ */}
-          <div style={{ background:"#E1F5EE", borderRadius:"16px", padding:"24px", marginBottom:"16px" }}>
-            <h3 style={{ fontSize:"15px", fontWeight:600, color:"#085041", marginBottom:"10px" }}>📍 ที่อยู่บริษัท</h3>
-            <p style={{ fontSize:"13px", color:"#374151", lineHeight:1.8 }}>
-              บริษัท ยูดีพี แพ็คเกจจิ้ง จำกัด<br/>
-              {/* TODO: ใส่ที่อยู่จริงของบริษัท */}
-              {/* กรุณาอัปเดตที่อยู่จริงที่นี่ */}
-              กรุงเทพมหานคร
-            </p>
-            <a href="https://maps.google.com" target="_blank" rel="noreferrer" style={{
-              display:"inline-block", marginTop:"10px",
-              fontSize:"12px", color:"#1D9E75", textDecoration:"none", fontWeight:500,
-            }}>ดูแผนที่ Google Maps →</a>
-          </div>
-
-          {/* Why us */}
-          <div style={{ border:"1px solid #e5e7eb", borderRadius:"16px", padding:"24px" }}>
-            <h3 style={{ fontSize:"15px", fontWeight:600, color:"#1a1a1a", marginBottom:"14px" }}>ทำไมต้องเลือก UDP?</h3>
-            {[
-              "ตอบกลับภายใน 1 ชั่วโมง",
-              "ส่ง proof ให้อนุมัติก่อนพิมพ์จริง",
-              "MOQ ต่ำ เหมาะทั้งรายเล็กและรายใหญ่",
-              "รับประกันตรงสี ตรงแบบ 100%",
-            ].map(txt => (
-              <div key={txt} style={{ display:"flex", alignItems:"center", gap:"8px", marginBottom:"10px" }}>
-                <div style={{ width:"20px", height:"20px", borderRadius:"50%", background:"#E1F5EE", display:"flex", alignItems:"center", justifyContent:"center", fontSize:"11px", flexShrink:0 }}>✓</div>
-                <span style={{ fontSize:"13px", color:"#374151" }}>{txt}</span>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="text-xs font-semibold text-gray-700 block mb-1.5">เบอร์โทรศัพท์ <span className="text-red-500">*</span></label>
+                  <input type="tel" name="tel" required value={form.tel} onChange={handleChange} placeholder="08XXXXXXXX" className="w-full text-xs md:text-sm border border-gray-200 rounded-lg p-3 outline-none focus:border-[#0D5C44] focus:ring-2 focus:ring-[#0D5C44]/10 transition-all font-['Sarabun']" />
+                </div>
+                <div>
+                  <label className="text-xs font-semibold text-gray-700 block mb-1.5">อีเมล (ถ้ามี)</label>
+                  <input type="email" name="email" value={form.email} onChange={handleChange} placeholder="example@brand.com" className="w-full text-xs md:text-sm border border-gray-200 rounded-lg p-3 outline-none focus:border-[#0D5C44] focus:ring-2 focus:ring-[#0D5C44]/10 transition-all font-['Sarabun']" />
+                </div>
               </div>
-            ))}
+
+              <div>
+                <label className="text-xs font-semibold text-gray-700 block mb-1.5">ประเภทผลิตภัณฑ์บรรจุภัณฑ์ <span className="text-red-500">*</span></label>
+                <select name="product" required value={form.product} onChange={handleChange} className="w-full text-xs md:text-sm border border-gray-200 rounded-lg p-3 outline-none bg-white text-gray-700 focus:border-[#0D5C44] font-['Sarabun']">
+                  <option value="" disabled>คลิกเพื่อเลือกประเภทบรรจุภัณฑ์</option>
+                  {productTypes.map(p => <option key={p} value={p}>{p}</option>)}
+                </select>
+              </div>
+
+              <div>
+                <label className="text-xs font-semibold text-gray-700 block mb-1.5">ปริมาณการผลิตที่ต้องการ (ตามขั้นต่ำ MOQ)</label>
+                <input type="text" name="qty" value={form.qty} onChange={handleChange} placeholder="เช่น 500 ใบ, 1,000 ชิ้น เป็นต้น" className="w-full text-xs md:text-sm border border-gray-200 rounded-lg p-3 outline-none focus:border-[#0D5C44] transition-all font-['Sarabun']" />
+              </div>
+
+              <div>
+                <label className="text-xs font-semibold text-gray-700 block mb-1.5">รายละเอียดขนาด / สี / ข้อกำหนดงานเทคนิคเพิ่มเติม</label>
+                <textarea name="detail" rows={4} value={form.detail} onChange={handleChange} placeholder="ระบุขนาด กว้าง x ยาว x สูง, สีที่พิมพ์ หรือเทคนิคฟอยล์ปั๊มนูน เพื่อความรวดเร็วในการคำนวณราคา..." className="w-full text-xs md:text-sm border border-gray-200 rounded-lg p-3 outline-none focus:border-[#0D5C44] transition-all font-['Sarabun'] resize-none leading-relaxed" />
+              </div>
+
+              {error && <div className="bg-red-50 border border-red-100 text-red-600 rounded-xl p-4 text-xs">{error}</div>}
+
+              <button type="submit" disabled={loading} className={`w-full py-3.5 rounded-xl font-bold text-white text-xs md:text-sm shadow-md transition-colors ${loading ? "bg-gray-300 cursor-not-allowed" : "bg-[#0D5C44] hover:bg-[#0A3828]"}`}>
+                {loading ? "กำลังส่งไฟล์ข้อมูล..." : "ส่งข้อมูลติดต่อขอใบเสนอราคา →"}
+              </button>
+            </form>
+          )}
+        </div>
+
+        {/* Sidebar Info */}
+        <div className="space-y-6">
+          {/* Quick Contacts */}
+          <div className="bg-[#F5EFE6] rounded-2xl p-6 border border-[#C8A882]/20">
+            <h3 className="text-sm font-bold text-gray-900 mb-4 uppercase tracking-wider">ช่องทางการติดต่อตรง</h3>
+            <div className="space-y-3.5">
+              {[
+                { icon:"📞", label:"สายด่วนฝ่ายขาย", value:"02-408-5680", href:"tel:024085680" },
+                { icon:"💬", label:"Line Official Account", value:"@udppackaging", href:"https://line.me/R/ti/p/@udppackaging" },
+                { icon:"👍", label:"Facebook Fanpage", value:"UDP Packaging", href:"https://facebook.com/udp159" },
+                { icon:"📧", label:"อีเมลกลางติดต่อ", value:"info@udppackaging.com", href:"mailto:info@udppackaging.com" },
+                { icon:"🕐", label:"เวลาทำการเปิดออฟฟิศ", value:"จันทร์ – ศุกร์ 8:00 – 17:00 น." },
+              ].map((c, i) => (
+                <div key={i} className="flex gap-3 items-start">
+                  <div className="w-8 h-8 rounded-lg bg-[#0D5C44] text-white flex items-center justify-center text-sm shrink-0 shadow-sm">{c.icon}</div>
+                  <div>
+                    <div className="text-[10px] text-gray-500 font-medium">{c.label}</div>
+                    {c.href ? (
+                      <a href={c.href} className="text-xs md:text-sm font-bold text-[#0D5C44] no-underline hover:underline truncate block max-w-[200px] sm:max-w-none">{c.value}</a>
+                    ) : (
+                      <div className="text-xs md:text-sm font-bold text-gray-800">{c.value}</div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
 
+          {/* Plant Location */}
+          <div className="bg-[#E1F5EE] rounded-2xl p-6 border border-[#9FE1CB]/20">
+            <h3 className="text-sm font-bold text-[#085041] mb-2">📍 ที่ตั้งสำนักงานใหญ่</h3>
+            <p className="text-xs text-gray-600 leading-relaxed mb-4">
+              <strong>บริษัท ยูดีพี แพ็คเกจจิ้ง จำกัด</strong><br />
+              โรงงานและศูนย์ผลิตบรรจุภัณฑ์ครบวงจร กรุงเทพมหานคร ประเทศไทย
+            </p>
+            <a href="https://maps.google.com" target="_blank" rel="noreferrer" className="inline-flex text-xs font-bold text-[#0D5C44] no-underline bg-white px-4 py-2 rounded-lg border border-gray-100 hover:bg-gray-50">
+              เปิดใน Google Maps →
+            </a>
+          </div>
         </div>
       </section>
     </main>

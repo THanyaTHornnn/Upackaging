@@ -1,269 +1,274 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 
 const slides = [
-  {
-    badge: "กล่องบรรจุภัณฑ์ ทุกรูปแลล ครบวงจร",
-    title: "บรรจุภัณฑ์คุณภาพ\nที่คุณไว้วางใจได้",
-    desc: "กล่อง สติ๊กเกอร์ ถุงกระดาษ และงานพิมพ์ทุกชนิด\nรับออกแบบและผลิตตามสั่ง ส่งตรงถึงมือคุณ",
-    bg: "linear-gradient(135deg,#053D31 0%,#0F6E56 55%,#1D9E75 100%)",
-    icon: "📦", imgLabel: "กล่องบรรจุภัณฑ์",
-    cta: { label: "ดูกล่องทั้งหมด →", to: "/products" },
-    accent: "#9FE1CB",
-  },
-  {
-    badge: "อกกแบบฟรี ไม่มีขั้นต่ำ",
-    title: "สติ๊กเกอร์และฉลาก\nคมชัดทุกรายละเอียด",
-    desc: "ม้วนและแผ่น Die-cut ทุกรูปทรง\nพิมพ์ดิจิทัลความละเอียดสูง",
-    bg: "linear-gradient(135deg,#03302A 0%,#0F6E56 55%,#1D9E75 100%)",
-    icon: "🏷️", imgLabel: "สติ๊กเกอร์และฉลาก",
-    cta: { label: "ดูสติ๊กเกอร์ →", to: "/products" },
-    accent: "#5DCAA5",
-  },
-  {
-    badge: "ปลอดภัย ใส่ใจ ป้องกัน ยั่งยืน",
-    title: "ถุงกระดาษพรีเมียม\nสะท้อนแบรนด์คุณ",
-    desc: "หูเชือก หูแบน เคลือบ PP ด้าน/มัน\nพิมพ์โลโก้ทุกขนาด",
-    bg: "linear-gradient(135deg,#042B24 0%,#085041 55%,#1D9E75 100%)",
-    icon: "🛍️", imgLabel: "ถุงกระดาษ",
-    cta: { label: "ดูถุงกระดาษ →", to: "/products" },
-    accent: "#E1F5EE",
-  },
+  { src: "/onestop.webp", alt: "One Stop Service" },
+  { src: "/design.webp", alt: "ออกแบบฟรี · MOQ ต่ำ" },
+  { src: "/organic.jpg", alt: "บรรจุภัณฑ์อินทรีย์" },
+  { src: "/company.jpg", alt: "บริษัทของเรา" },
 ];
 
 const productCategories = [
-  { id: "box",      icon: "📦", name: "กล่องบรรจุภัณฑ์",   desc: "กล่องพิมพ์สีออฟเซ็ท ครบทุกขนาด ทุกรูปทรง", cat: "กล่องบรรจุภัณฑ์" },
-  { id: "sticker",  icon: "🏷️", name: "สติ๊กเกอร์และฉลาก", desc: "ม้วนและแผ่น ทนน้ำ ทนความร้อน พิมพ์คมชัด",   cat: "สติ๊กเกอร์" },
-  { id: "bag",      icon: "🛍️", name: "ถุงกระดาษ",          desc: "ถุงกระดาษพิมพ์โลโก้ทุกขนาด หูหิ้วครบแบบ",  cat: "ถุงกระดาษ" },
-  { id: "brochure", icon: "📄", name: "แผ่นพับ / โบรชัวร์",  desc: "งานพิมพ์ตลาด แค็ตตาล็อก Hangtag ครบจบ",   cat: "แผ่นพับ" },
+  { id: "box",      icon: "📦", name: "กล่องบรรจุภัณฑ์",    desc: "กล่องพิมพ์สีออฟเซ็ท ครบทุกขนาด ทุกรูปทรง", cat: "กล่องบรรจุภัณฑ์", accent: "#0D5C44" },
+  { id: "sticker",  icon: "🏷️", name: "สติ๊กเกอร์และฉลาก",  desc: "ม้วนและแผ่น ทนน้ำ ทนความร้อน พิมพ์คมชัด",   cat: "สติ๊กเกอร์",       accent: "#5AACAC" },
+  { id: "bag",      icon: "🛍️", name: "ถุงกระดาษ",           desc: "ถุงกระดาษพิมพ์โลโก้ทุกขนาด หูหิ้วครบแบบ",  cat: "ถุงกระดาษ",        accent: "#C8A882" },
+  { id: "brochure", icon: "📄", name: "แผ่นพับ / โบรชัวร์",  desc: "งานพิมพ์ตลาด แค็ตตาล็อก Hangtag ครบจบ",   cat: "แผ่นพับ",          accent: "#8FAF78" },
 ];
 
-const portfolio = [
-  { bg: "linear-gradient(135deg,#1D9E75,#085041)", icon: "📦", label: "กล่องเครื่องสำอาง", sub: "Luxury Cosmetic Box" },
-  { bg: "linear-gradient(135deg,#085041,#053D31)", icon: "🛍️", label: "ถุงกระดาษแบรนด์ดัง", sub: "Premium Paper Bag" },
-  { bg: "linear-gradient(135deg,#5DCAA5,#1D9E75)", icon: "🏷️", label: "ฉลากสินค้าอาหาร", sub: "Food Label Sticker" },
+const trustItems = [
+  { icon: "🚚", title: "ส่งทั่วประเทศ", desc: "ทุกจังหวัด ครบทุกช่องทาง" },
+  { icon: "🏅", title: "รับประกันคุณภาพ", desc: "ตรงสี ตรงแบบ 100%" },
+  { icon: "🎨", title: "Pantone Matching", desc: "พิมพ์ตรงสีแม่นยำ" },
+  { icon: "🎧", title: "ตอบใน 1 ชั่วโมง", desc: "วันทำการ จ–ศ 8–17 น." },
 ];
 
-const trust = [
-  { icon: "🚚", text: "ส่งทั่วประเทศ" },
-  { icon: "🏅", text: "รับประกันคุณภาพ" },
-  { icon: "🎨", text: "พิมพ์ตรงสี Pantone" },
-  { icon: "🎧", text: "ทีมงานพร้อมให้คำปรึกษา" },
+const services = [
+  {
+    icon: "💬",
+    title: "ให้คำปรึกษาเรื่องการพิมพ์",
+    desc: "ตอบทุกข้อสงสัยเกี่ยวกับการพิมพ์ ด้วยทีมงานผู้เชี่ยวชาญที่พร้อมให้คำแนะนำตั้งแต่เริ่มต้นจนจบงาน",
+    accent: "#0D5C44",
+    gradient: "from-[#E8F5F0] to-[#C8EBE0]",
+  },
+  {
+    icon: "🎨",
+    title: "ออกแบบและผลิตสื่อสิ่งพิมพ์",
+    desc: "เรามีทีมงานที่ช่วยให้การออกแบบของคุณเป็นเรื่องง่าย ครอบคลุมทุกประเภทงานพิมพ์ด้วยมาตรฐานระดับมืออาชีพ",
+    accent: "#5AACAC",
+    gradient: "from-[#E4F4F4] to-[#C2E8E8]",
+  },
+  {
+    icon: "🚚",
+    title: "บริการจัดส่งทั่วประเทศ",
+    desc: "ไม่ว่าจะใกล้หรือไกล เราพร้อมส่งทุกที่ทั่วประเทศ รวดเร็ว ปลอดภัย ตรงเวลา",
+    accent: "#C8A882",
+    gradient: "from-[#FAF3EB] to-[#F0E0C8]",
+  },
 ];
 
-const steps = ["เลือกสินค้า", "ส่งไฟล์งาน", "อนุมัติ proof", "รับของ"];
+const steps = [
+  { step: "01", name: "เลือกสินค้า", icon: "🛒" },
+  { step: "02", name: "ส่งไฟล์งาน", icon: "📤" },
+  { step: "03", name: "อนุมัติ Proof", icon: "✅" },
+  { step: "04", name: "รอรับสินค้า", icon: "📦" },
+];
 
-function HeroBanner() {
-  const [current, setCurrent] = useState(0);
-  const [fading, setFading] = useState(false);
-
-  useEffect(() => {
-    const t = setInterval(() => {
-      setFading(true);
-      setTimeout(() => { setCurrent(c => (c + 1) % slides.length); setFading(false); }, 350);
-    }, 5000);
-    return () => clearInterval(t);
-  }, []);
-
-  function goTo(idx) {
-    if (idx === current) return;
-    setFading(true);
-    setTimeout(() => { setCurrent(idx); setFading(false); }, 350);
-  }
-
-  const s = slides[current];
-
+// ── Arrow Icon Components ──
+function ChevronLeft() {
   return (
-    <section style={{ position: "relative", overflow: "hidden", background: s.bg, transition: "background .6s ease" }}>
-      {/* Decorative shapes */}
-      <div style={{ position: "absolute", top: "-80px", right: "-80px", width: "360px", height: "360px", borderRadius: "50%", background: "rgba(255,255,255,0.04)", pointerEvents: "none" }} />
-      <div style={{ position: "absolute", bottom: "-60px", left: "30%", width: "240px", height: "240px", borderRadius: "50%", background: "rgba(255,255,255,0.03)", pointerEvents: "none" }} />
-
-      <div style={{
-        padding: "72px 48px 80px",
-        display: "grid", gridTemplateColumns: "1fr 1fr",
-        gap: "48px", alignItems: "center",
-        maxWidth: "1200px", margin: "0 auto",
-        opacity: fading ? 0 : 1,
-        transform: fading ? "translateY(8px)" : "translateY(0)",
-        transition: "opacity .35s ease, transform .35s ease",
-      }}>
-        {/* Text */}
-        <div>
-          <span style={{
-            display: "inline-flex", alignItems: "center", gap: "6px",
-            background: "rgba(255,255,255,0.15)", backdropFilter: "blur(6px)",
-            color: "#fff", fontSize: "12px", padding: "5px 14px",
-            borderRadius: "20px", marginBottom: "20px",
-            border: "1px solid rgba(255,255,255,0.2)",
-          }}>✦ {s.badge}</span>
-
-          <h1 style={{
-            color: "#fff", fontSize: "clamp(28px,4vw,46px)",
-            fontWeight: 700, lineHeight: 1.3, marginBottom: "18px",
-            whiteSpace: "pre-line", letterSpacing: "-0.5px",
-          }}>{s.title}</h1>
-
-          <p style={{
-            color: "rgba(255,255,255,0.8)", fontSize: "15px",
-            lineHeight: 1.9, marginBottom: "32px", whiteSpace: "pre-line",
-          }}>{s.desc}</p>
-
-          <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
-            <Link to={s.cta.to} style={{
-              background: "#fff", color: "#0F6E56",
-              padding: "13px 30px", borderRadius: "30px",
-              fontWeight: 700, fontSize: "14px", textDecoration: "none",
-              boxShadow: "0 4px 16px rgba(0,0,0,0.15)",
-              transition: "transform .15s, box-shadow .15s",
-              display: "inline-block",
-            }}
-              onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = "0 8px 24px rgba(0,0,0,0.2)"; }}
-              onMouseLeave={e => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "0 4px 16px rgba(0,0,0,0.15)"; }}
-            >{s.cta.label}</Link>
-            <Link to="/contact" style={{
-              background: "rgba(255,255,255,0.15)", color: "#fff",
-              padding: "13px 30px", borderRadius: "30px",
-              fontSize: "14px", fontWeight: 600, textDecoration: "none",
-              border: "1.5px solid rgba(255,255,255,0.4)",
-              backdropFilter: "blur(6px)", transition: "background .15s",
-              display: "inline-block",
-            }}
-              onMouseEnter={e => e.currentTarget.style.background = "rgba(255,255,255,0.25)"}
-              onMouseLeave={e => e.currentTarget.style.background = "rgba(255,255,255,0.15)"}
-            >ขอใบเสนอราคา</Link>
-          </div>
-        </div>
-
-        {/* Visual */}
-        <div style={{
-          background: "rgba(255,255,255,0.1)", borderRadius: "24px",
-          height: "280px", display: "flex", flexDirection: "column",
-          alignItems: "center", justifyContent: "center",
-          border: "1px solid rgba(255,255,255,0.18)",
-          backdropFilter: "blur(6px)", gap: "12px",
-          boxShadow: "inset 0 1px 0 rgba(255,255,255,0.2)",
-        }}>
-          <span style={{ fontSize: "88px", filter: "drop-shadow(0 8px 24px rgba(0,0,0,0.2))" }}>{s.icon}</span>
-          <span style={{
-            background: "rgba(255,255,255,0.15)", color: "#fff",
-            fontSize: "12px", padding: "4px 14px", borderRadius: "16px",
-          }}>{s.imgLabel}</span>
-        </div>
-      </div>
-
-      {/* Controls */}
-      <div style={{
-        position: "absolute", bottom: "24px", left: "50%",
-        transform: "translateX(-50%)",
-        display: "flex", alignItems: "center", gap: "10px",
-      }}>
-        <button onClick={() => goTo((current - 1 + slides.length) % slides.length)} style={{
-          width: "32px", height: "32px", borderRadius: "50%",
-          background: "rgba(255,255,255,0.15)", border: "1px solid rgba(255,255,255,0.3)",
-          color: "#fff", fontSize: "14px", cursor: "pointer",
-          display: "flex", alignItems: "center", justifyContent: "center",
-          backdropFilter: "blur(4px)",
-        }}>‹</button>
-        {slides.map((_, i) => (
-          <button key={i} onClick={() => goTo(i)} style={{
-            width: i === current ? "28px" : "8px", height: "8px",
-            borderRadius: "4px", background: i === current ? "#fff" : "rgba(255,255,255,0.4)",
-            border: "none", cursor: "pointer", padding: 0, transition: "all .35s ease",
-          }} />
-        ))}
-        <button onClick={() => goTo((current + 1) % slides.length)} style={{
-          width: "32px", height: "32px", borderRadius: "50%",
-          background: "rgba(255,255,255,0.15)", border: "1px solid rgba(255,255,255,0.3)",
-          color: "#fff", fontSize: "14px", cursor: "pointer",
-          display: "flex", alignItems: "center", justifyContent: "center",
-          backdropFilter: "blur(4px)",
-        }}>›</button>
-      </div>
-
-      {/* Slide counter */}
-      <div style={{
-        position: "absolute", top: "20px", right: "48px",
-        background: "rgba(0,0,0,0.2)", backdropFilter: "blur(4px)",
-        color: "#fff", fontSize: "11px", padding: "4px 12px",
-        borderRadius: "12px", border: "1px solid rgba(255,255,255,0.15)",
-      }}>{current + 1} / {slides.length}</div>
-    </section>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
+      <polyline points="15 18 9 12 15 6" />
+    </svg>
+  );
+}
+function ChevronRight() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
+      <polyline points="9 18 15 12 9 6" />
+    </svg>
   );
 }
 
 export default function Home() {
-  return (
-    <main style={{ fontFamily: "'Sarabun', sans-serif" }}>
-      <HeroBanner />
+  const [current, setCurrent] = useState(0);
+  const [fading, setFading] = useState(false);
+  const [hoveredCat, setHoveredCat] = useState(null);
+  const [isPaused, setIsPaused] = useState(false);
 
-      {/* Trust Bar */}
-      <section style={{
-        background: "#fff", borderBottom: "1px solid #f0f0f0",
-        padding: "0 40px",
-      }}>
-        <div style={{
-          maxWidth: "960px", margin: "0 auto",
-          display: "grid", gridTemplateColumns: "repeat(4,1fr)",
-        }}>
-          {trust.map(({ icon, text }, i) => (
-            <div key={text} style={{
-              display: "flex", alignItems: "center", gap: "10px",
-              padding: "20px 16px", fontSize: "13px", fontWeight: 500,
-              color: "#374151",
-              borderRight: i < 3 ? "1px solid #f0f0f0" : "none",
-            }}>
-              <span style={{
-                width: "36px", height: "36px", borderRadius: "10px",
-                background: "#E1F5EE", display: "flex",
-                alignItems: "center", justifyContent: "center", fontSize: "18px",
-                flexShrink: 0,
-              }}>{icon}</span>
-              {text}
+  const goTo = useCallback((index) => {
+    setFading(true);
+    setTimeout(() => {
+      setCurrent((index + slides.length) % slides.length);
+      setFading(false);
+    }, 300);
+  }, []);
+
+  const goPrev = useCallback(() => goTo(current - 1), [current, goTo]);
+  const goNext = useCallback(() => goTo(current + 1), [current, goTo]);
+
+  useEffect(() => {
+    if (isPaused) return;
+    const t = setInterval(() => goNext(), 6000);
+    return () => clearInterval(t);
+  }, [isPaused, goNext]);
+
+  return (
+    <main className="font-['Sarabun'] bg-[#F8F9F7] text-[#1C2B25] min-h-screen">
+
+      {/* ── Hero Banner Slideshow ── */}
+      <section
+        className="relative w-full overflow-hidden bg-black group"
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+      >
+        {/* Banner Image */}
+        <div className={`transition-opacity duration-500 ${fading ? "opacity-0" : "opacity-100"}`}>
+          <img
+            src={slides[current].src}
+            alt={slides[current].alt}
+            className="w-full object-cover block"
+            style={{ maxHeight: "520px", width: "100%", objectPosition: "center" }}
+          />
+        </div>
+
+        {/* Left Arrow */}
+        <button
+          onClick={goPrev}
+          aria-label="Previous slide"
+          className="absolute left-3 md:left-6 top-1/2 -translate-y-1/2 z-10
+            w-10 h-10 md:w-12 md:h-12 rounded-full
+            bg-white/20 backdrop-blur-md border border-white/30 text-white
+            flex items-center justify-center
+            opacity-0 group-hover:opacity-100
+            transition-all duration-300
+            hover:bg-white/40 hover:scale-110 active:scale-95
+            shadow-lg"
+        >
+          <ChevronLeft />
+        </button>
+
+        {/* Right Arrow */}
+        <button
+          onClick={goNext}
+          aria-label="Next slide"
+          className="absolute right-3 md:right-6 top-1/2 -translate-y-1/2 z-10
+            w-10 h-10 md:w-12 md:h-12 rounded-full
+            bg-white/20 backdrop-blur-md border border-white/30 text-white
+            flex items-center justify-center
+            opacity-0 group-hover:opacity-100
+            transition-all duration-300
+            hover:bg-white/40 hover:scale-110 active:scale-95
+            shadow-lg"
+        >
+          <ChevronRight />
+        </button>
+
+        {/* Bottom Gradient + Dots */}
+        <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-black/40 to-transparent pointer-events-none" />
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 z-10">
+          {slides.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => goTo(i)}
+              aria-label={`Go to slide ${i + 1}`}
+              className={`rounded-full transition-all duration-300 ${
+                i === current
+                  ? "w-8 h-2.5 bg-white shadow-md"
+                  : "w-2.5 h-2.5 bg-white/50 hover:bg-white/80"
+              }`}
+            />
+          ))}
+        </div>
+
+        {/* Slide counter */}
+        <div className="absolute top-4 right-4 bg-black/30 backdrop-blur-sm text-white text-xs font-bold px-3 py-1 rounded-full border border-white/20 z-10">
+          {current + 1} / {slides.length}
+        </div>
+      </section>
+
+      {/* ── Trust Bar ── */}
+      <section className="bg-[#0A3828] border-b border-white/10 py-5 px-6">
+        <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+          {trustItems.map((item, i) => (
+            <div key={i} className="flex items-center gap-3">
+              <span className="text-xl md:text-2xl">{item.icon}</span>
+              <div>
+                <div className="text-xs md:text-sm font-bold text-[#7EC8C8] leading-snug">{item.title}</div>
+                <div className="text-[10px] md:text-xs text-white/45 mt-0.5">{item.desc}</div>
+              </div>
             </div>
           ))}
         </div>
       </section>
 
-      {/* Products Section */}
-      <section style={{ padding: "60px 40px", maxWidth: "1200px", margin: "0 auto" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "32px" }}>
-          <div>
-            <div style={{ fontSize: "12px", fontWeight: 700, color: "#1D9E75", letterSpacing: "1.5px", marginBottom: "6px" }}>PRODUCTS</div>
-            <h2 style={{ fontSize: "clamp(20px,3vw,26px)", fontWeight: 700, color: "#1a1a1a", margin: 0 }}>สินค้าและบริการ</h2>
+      {/* ── About / Mission ── */}
+      <section className="py-16 md:py-20 px-6 max-w-6xl mx-auto">
+        <div className="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
+          <div className="grid grid-cols-1 md:grid-cols-2 items-stretch">
+
+            {/* Left accent */}
+            <div className="bg-gradient-to-br from-[#0A3828] to-[#0D5C44] p-10 md:p-14 flex flex-col justify-center relative overflow-hidden">
+              <div className="absolute -top-16 -right-16 w-64 h-64 rounded-full bg-white/5 pointer-events-none" />
+              <div className="absolute -bottom-10 -left-10 w-48 h-48 rounded-full bg-[#7EC8C8]/10 pointer-events-none" />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 rounded-full bg-white/[0.02] pointer-events-none" />
+
+              <span className="text-[10px] font-bold text-[#7EC8C8] tracking-[3px] uppercase block mb-4">ABOUT US</span>
+              <h2 className="text-2xl md:text-3xl font-extrabold text-white leading-snug mb-6">
+                งานพิมพ์คุณภาพ<br />
+                <span className="text-[#7EC8C8]">ราคายุติธรรม</span><br />
+                ระยะเวลารวดเร็ว
+              </h2>
+
+              <div className="flex flex-wrap gap-3 mt-2">
+                {[
+                  { num: "20+", label: "ปีประสบการณ์" },
+                  { num: "5,000+", label: "ลูกค้าที่ไว้ใจ" },
+                  { num: "100%", label: "รับประกันคุณภาพ" },
+                ].map((stat, i) => (
+                  <div key={i} className="bg-white/10 border border-white/15 backdrop-blur-sm rounded-xl px-4 py-2.5 text-center min-w-[80px]">
+                    <div className="text-lg font-extrabold text-[#7EC8C8]">{stat.num}</div>
+                    <div className="text-[10px] text-white/55 mt-0.5 whitespace-nowrap">{stat.label}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Right body text */}
+            <div className="p-10 md:p-14 flex flex-col justify-center">
+              <p className="text-[#1C2B25] text-sm md:text-base leading-[1.9] font-['Sarabun'] mb-5">
+                <span className="font-bold text-[#0D5C44]">บจก.อุดมโภคทรัพย์ แพ็คเก็จจิ้ง</span> มุ่งมั่นพัฒนางานพิมพ์อย่างต่อเนื่อง จากการนำความต้องการของลูกค้าและตลาดมาปรับปรุง เพื่อเพิ่มประสิทธิภาพงานพิมพ์ให้สามารถตอบสนองความต้องการของลูกค้าให้ครอบคลุมทุกกลุ่มเป้าหมาย
+              </p>
+              <p className="text-gray-500 text-xs md:text-sm leading-[1.85] font-['Sarabun'] mb-8">
+                ด้วยเครื่องจักรที่ทันสมัยและทีมงานผู้เชี่ยวชาญ เราพร้อมส่งมอบบรรจุภัณฑ์ที่ตอบโจทย์ทุกความต้องการ ตั้งแต่ออกแบบจนถึงการผลิต ด้วยมาตรฐานสากลที่คุณไว้วางใจได้
+              </p>
+              <Link
+                to="/About"
+                className="self-start inline-flex items-center gap-2 bg-[#0D5C44] text-white text-xs md:text-sm font-bold px-7 py-3 rounded-full no-underline hover:bg-[#0A3828] hover:-translate-y-0.5 transition-all shadow-md shadow-[#0D5C44]/20"
+              >
+                เกี่ยวกับเรา <span>→</span>
+              </Link>
+            </div>
           </div>
-          <Link to="/products" style={{ fontSize: "13px", color: "#1D9E75", textDecoration: "none", fontWeight: 600, display: "flex", alignItems: "center", gap: "4px" }}>
-            ดูทั้งหมด →
+        </div>
+      </section>
+
+      {/* ── Divider ── */}
+      <div className="max-w-6xl mx-auto px-6">
+        <div className="h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
+      </div>
+
+      {/* ── Product Categories ── */}
+      <section className="py-16 md:py-24 px-6 max-w-6xl mx-auto">
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-12 gap-4">
+          <div>
+            <span className="text-[10px] font-bold text-[#5AACAC] tracking-[3px] uppercase block mb-2">OUR PRODUCTS</span>
+            <h2 className="text-2xl md:text-4xl font-extrabold text-[#1C2B25]">สินค้าและบริการของเรา</h2>
+          </div>
+          <Link to="/products" className="self-start md:self-auto text-xs font-bold text-[#0D5C44] border border-[#0D5C44] px-5 py-2.5 rounded-full no-underline hover:bg-[#0D5C44] hover:text-white transition-all">
+            ดูสินค้าทั้งหมด →
           </Link>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: "18px" }}>
-          {productCategories.map(({ id, icon, name, desc, cat }) => (
-            <Link to={`/products?cat=${encodeURIComponent(cat)}`} key={id} style={{ textDecoration: "none" }}>
-              <div style={{
-                background: "#fff", border: "1.5px solid #f0f0f0",
-                borderRadius: "18px", overflow: "hidden",
-                transition: "all .2s ease", cursor: "pointer",
-              }}
-                onMouseEnter={e => {
-                  e.currentTarget.style.boxShadow = "0 12px 32px rgba(29,158,117,0.12)";
-                  e.currentTarget.style.transform = "translateY(-4px)";
-                  e.currentTarget.style.borderColor = "#9FE1CB";
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.boxShadow = "none";
-                  e.currentTarget.style.transform = "translateY(0)";
-                  e.currentTarget.style.borderColor = "#f0f0f0";
-                }}>
-                <div style={{
-                  background: "linear-gradient(135deg,#E1F5EE,#c8f0e0)",
-                  height: "110px", display: "flex",
-                  alignItems: "center", justifyContent: "center",
-                }}>
-                  <span style={{ fontSize: "48px" }}>{icon}</span>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5">
+          {productCategories.map((cat) => (
+            <Link key={cat.id} to={`/products?cat=${encodeURIComponent(cat.cat)}`} className="no-underline group">
+              <div
+                className="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:border-transparent"
+                style={{ boxShadow: hoveredCat === cat.id ? `0 24px 48px ${cat.accent}18` : "" }}
+                onMouseEnter={() => setHoveredCat(cat.id)}
+                onMouseLeave={() => setHoveredCat(null)}
+              >
+                {/* Color top bar */}
+                <div className="h-1 w-full transition-all duration-300" style={{ background: hoveredCat === cat.id ? cat.accent : "#e5e7eb" }} />
+                <div className="h-28 flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 group-hover:from-[#E1F5EE] group-hover:to-[#9FE1CB]/30 transition-all duration-300">
+                  <span className="text-5xl filter drop-shadow-md transform group-hover:scale-110 transition-transform duration-300">{cat.icon}</span>
                 </div>
-                <div style={{ padding: "16px" }}>
-                  <div style={{ fontSize: "14px", fontWeight: 700, color: "#1a1a1a", marginBottom: "5px" }}>{name}</div>
-                  <div style={{ fontSize: "12px", color: "#6b7280", lineHeight: 1.7 }}>{desc}</div>
+                <div className="p-5 text-left">
+                  <h3 className="text-sm font-bold text-gray-900 mb-1.5 group-hover:text-[#0D5C44] transition-colors">{cat.name}</h3>
+                  <p className="text-xs text-gray-400 leading-relaxed min-h-[36px]">{cat.desc}</p>
+                  <div className="mt-4 text-xs font-bold flex items-center gap-1 transition-all duration-200" style={{ color: cat.accent }}>
+                    ดูรายละเอียด <span className="transform group-hover:translate-x-1.5 transition-transform">→</span>
+                  </div>
                 </div>
               </div>
             </Link>
@@ -271,143 +276,93 @@ export default function Home() {
         </div>
       </section>
 
-      {/* How it Works + Quick Quote */}
-      <section style={{ padding: "0 40px 60px", maxWidth: "1200px", margin: "0 auto" }}>
-        <div style={{
-          background: "linear-gradient(135deg,#053D31,#0F6E56)",
-          borderRadius: "24px", padding: "48px",
-          display: "grid", gridTemplateColumns: "1fr 300px", gap: "48px", alignItems: "center",
-        }}>
-          {/* Steps */}
-          <div>
-            <div style={{ fontSize: "12px", fontWeight: 700, color: "#9FE1CB", letterSpacing: "1.5px", marginBottom: "8px" }}>HOW IT WORKS</div>
-            <h2 style={{ color: "#fff", fontSize: "clamp(18px,2.5vw,24px)", fontWeight: 700, marginBottom: "8px" }}>
-              สั่งซื้อได้ง่ายๆ ไม่ต้องโทร
-            </h2>
-            <p style={{ color: "rgba(255,255,255,0.65)", fontSize: "13px", marginBottom: "28px" }}>
-              แค่กรอกรายละเอียด เราติดต่อกลับภายใน 1 ชั่วโมง
-            </p>
-            <div style={{ display: "flex", alignItems: "center", gap: "0", flexWrap: "wrap" }}>
-              {steps.map((step, i) => (
-                <div key={step} style={{ display: "flex", alignItems: "center" }}>
-                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "6px" }}>
-                    <div style={{
-                      width: "40px", height: "40px", borderRadius: "50%",
-                      background: "rgba(159,225,203,0.2)",
-                      border: "2px solid rgba(159,225,203,0.5)",
-                      color: "#9FE1CB", fontSize: "14px", fontWeight: 700,
-                      display: "flex", alignItems: "center", justifyContent: "center",
-                    }}>{i + 1}</div>
-                    <span style={{ color: "rgba(255,255,255,0.8)", fontSize: "12px", fontWeight: 500 }}>{step}</span>
+      {/* ── One-Stop Service ── */}
+      <section className="py-16 md:py-20 px-6 bg-[#F2F5F3]">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12">
+            <span className="text-[10px] font-bold text-[#5AACAC] tracking-[3px] uppercase block mb-2">ONE-STOP SERVICE</span>
+            <h2 className="text-2xl md:text-4xl font-extrabold text-[#1C2B25]">บริการครบจบในที่เดียว</h2>
+            <p className="text-gray-500 text-sm mt-3 max-w-xl mx-auto">ตั้งแต่ออกแบบ ผลิต จนถึงส่งถึงมือคุณ เราดูแลทุกขั้นตอน</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {services.map((item, i) => (
+              <div key={i} className="group bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 overflow-hidden">
+                <div className="h-1.5 w-full" style={{ background: item.accent }} />
+                <div className="p-8">
+                  <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${item.gradient} flex items-center justify-center text-3xl mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                    {item.icon}
                   </div>
-                  {i < 3 && <div style={{ width: "32px", height: "1px", background: "rgba(255,255,255,0.2)", margin: "0 4px", marginBottom: "18px" }} />}
+                  <h3 className="text-sm md:text-base font-extrabold text-[#1C2B25] mb-3 leading-snug">{item.title}</h3>
+                  <p className="text-xs md:text-sm text-gray-500 leading-[1.85]">{item.desc}</p>
+                  <div className="mt-6 flex items-center gap-1.5 text-xs font-bold" style={{ color: item.accent }}>
+                    <span>เรียนรู้เพิ่มเติม</span>
+                    <span className="transform group-hover:translate-x-1 transition-transform">→</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Quick Quote & Process ── */}
+      <section className="py-16 md:py-24 px-6 max-w-6xl mx-auto">
+        <div className="bg-gradient-to-br from-[#0A3828] via-[#0D5C44] to-[#0F6B4F] rounded-3xl p-8 md:p-12 grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-12 items-center relative overflow-hidden">
+
+          {/* Decorative blobs */}
+          <div className="absolute -top-20 -right-20 w-72 h-72 rounded-full bg-white/5 pointer-events-none" />
+          <div className="absolute -bottom-16 left-1/4 w-56 h-56 rounded-full bg-[#7EC8C8]/10 pointer-events-none" />
+
+          {/* Steps */}
+          <div className="md:col-span-2 text-left text-white relative z-10">
+            <span className="text-[10px] font-bold text-[#7EC8C8] tracking-[3px] block mb-2">PRODUCTION PROCESS</span>
+            <h2 className="text-xl md:text-3xl font-bold mb-8">สั่งผลิตบรรจุภัณฑ์ง่ายๆ ใน 4 ขั้นตอน</h2>
+
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+              {steps.map((proc, idx) => (
+                <div key={idx} className="flex flex-col items-center text-center bg-white/5 border border-white/10 rounded-2xl p-4 backdrop-blur-sm hover:bg-white/10 transition-colors">
+                  <span className="text-2xl mb-3">{proc.icon}</span>
+                  <div className="text-[10px] text-[#7EC8C8] font-extrabold tracking-widest mb-1">{proc.step}</div>
+                  <div className="text-xs text-white/85 font-medium">{proc.name}</div>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Quick Quote */}
-          <div style={{
-            background: "rgba(255,255,255,0.07)",
-            borderRadius: "16px", padding: "24px",
-            border: "1px solid rgba(255,255,255,0.12)",
-            backdropFilter: "blur(8px)",
-          }}>
-            <p style={{ color: "#9FE1CB", fontSize: "12px", fontWeight: 700, letterSpacing: "1px", marginBottom: "16px" }}>
-              ขอใบเสนอราคาด่วน
-            </p>
-            {[
-              { type: "text", placeholder: "ชื่อบริษัท / ลูกค้า" },
-              { type: "tel",  placeholder: "เบอร์โทรติดต่อ" },
-            ].map(({ type, placeholder }) => (
-              <input key={placeholder} type={type} placeholder={placeholder} style={{
-                display: "block", width: "100%", boxSizing: "border-box",
-                background: "rgba(255,255,255,0.1)",
-                border: "1px solid rgba(255,255,255,0.15)",
-                borderRadius: "10px", padding: "10px 14px",
-                color: "#fff", fontSize: "13px", marginBottom: "10px",
-                outline: "none", fontFamily: "'Sarabun', sans-serif",
-              }} />
-            ))}
-            <select style={{
-              display: "block", width: "100%", boxSizing: "border-box",
-              background: "rgba(255,255,255,0.1)",
-              border: "1px solid rgba(255,255,255,0.15)",
-              borderRadius: "10px", padding: "10px 14px",
-              color: "rgba(255,255,255,0.7)", fontSize: "13px", marginBottom: "14px",
-              outline: "none", fontFamily: "'Sarabun', sans-serif",
-            }}>
-              <option value="">เลือกประเภทสินค้า</option>
+          {/* Quote Form */}
+          <div className="bg-white rounded-2xl p-6 shadow-2xl border border-gray-100 text-left relative z-10">
+            <div className="flex items-center gap-2 mb-5">
+              <div className="w-1.5 h-5 bg-[#0D5C44] rounded-full" />
+              <h3 className="text-sm font-extrabold text-[#0D5C44] tracking-wide uppercase">ขอใบเสนอราคาด่วน</h3>
+            </div>
+            <input
+              type="text"
+              placeholder="ชื่อบริษัท / ชื่อผู้ติดต่อ"
+              className="w-full text-xs md:text-sm border border-gray-200 rounded-xl p-3 mb-3 outline-none focus:border-[#0D5C44] focus:ring-2 focus:ring-[#0D5C44]/10 transition-all font-['Sarabun'] bg-gray-50 focus:bg-white"
+            />
+            <input
+              type="tel"
+              placeholder="เบอร์โทรศัพท์"
+              className="w-full text-xs md:text-sm border border-gray-200 rounded-xl p-3 mb-3 outline-none focus:border-[#0D5C44] focus:ring-2 focus:ring-[#0D5C44]/10 transition-all font-['Sarabun'] bg-gray-50 focus:bg-white"
+            />
+            <select className="w-full text-xs md:text-sm border border-gray-200 rounded-xl p-3 mb-5 outline-none bg-gray-50 focus:bg-white focus:border-[#0D5C44] focus:ring-2 focus:ring-[#0D5C44]/10 transition-all text-gray-600 font-['Sarabun']">
+              <option>เลือกประเภทสินค้า</option>
               <option>กล่องบรรจุภัณฑ์</option>
-              <option>สติ๊กเกอร์และฉลาก</option>
+              <option>สติ๊กเกอร์และฉลากสินค้า</option>
               <option>ถุงกระดาษ</option>
-              <option>แผ่นพับ / โบรชัวร์</option>
             </select>
-            <Link to="/contact" style={{
-              display: "block", textAlign: "center",
-              background: "#1D9E75", color: "#fff",
-              fontWeight: 700, fontSize: "13px",
-              padding: "11px", borderRadius: "10px",
-              textDecoration: "none", transition: "background .15s",
-            }}
-              onMouseEnter={e => e.currentTarget.style.background = "#16876400"}
-              onMouseLeave={e => e.currentTarget.style.background = "#1D9E75"}
-            >ส่งข้อมูล →</Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Portfolio Preview */}
-      <section style={{ padding: "0 40px 60px", maxWidth: "1200px", margin: "0 auto" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "28px" }}>
-          <div>
-            <div style={{ fontSize: "12px", fontWeight: 700, color: "#1D9E75", letterSpacing: "1.5px", marginBottom: "6px" }}>PORTFOLIO</div>
-            <h2 style={{ fontSize: "clamp(20px,3vw,26px)", fontWeight: 700, color: "#1a1a1a", margin: 0 }}>ผลงานของเรา</h2>
-          </div>
-          <Link to="/portfolio" style={{ fontSize: "13px", color: "#1D9E75", textDecoration: "none", fontWeight: 600 }}>ดูทั้งหมด →</Link>
-        </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: "18px" }}>
-          {portfolio.map(({ bg, icon, label, sub }) => (
-            <Link to="/portfolio" key={label} style={{ textDecoration: "none" }}>
-              <div style={{ borderRadius: "18px", overflow: "hidden", border: "1.5px solid #f0f0f0", transition: "all .2s" }}
-                onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-4px)"; e.currentTarget.style.boxShadow = "0 12px 32px rgba(0,0,0,0.1)"; }}
-                onMouseLeave={e => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "none"; }}>
-                <div style={{ background: bg, height: "140px", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                  <span style={{ fontSize: "56px", filter: "drop-shadow(0 4px 12px rgba(0,0,0,0.2))" }}>{icon}</span>
-                </div>
-                <div style={{ background: "#fff", padding: "14px 18px" }}>
-                  <div style={{ fontSize: "14px", fontWeight: 700, color: "#1a1a1a", marginBottom: "2px" }}>{label}</div>
-                  <div style={{ fontSize: "11px", color: "#9ca3af" }}>{sub}</div>
-                </div>
-              </div>
+            <Link
+              to="/contact"
+              className="block text-center bg-[#0D5C44] text-white font-bold text-xs md:text-sm py-3.5 rounded-xl no-underline hover:bg-[#0A3828] transition-all shadow-lg shadow-[#0D5C44]/30 hover:-translate-y-0.5"
+            >
+              ส่งข้อมูลปรึกษาฟรี ✉️
             </Link>
-          ))}
+            <p className="text-center text-[10px] text-gray-400 mt-3">ทีมงานติดต่อกลับภายใน 1 ชั่วโมง</p>
+          </div>
         </div>
       </section>
 
-      {/* Contact Bar */}
-      <section style={{ background: "#F5F3EE", padding: "32px 40px", borderTop: "1px solid #e5e7eb" }}>
-        <div style={{ maxWidth: "800px", margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: "24px" }}>
-          {[
-            { icon: "📞", label: "โทรศัพท์", value: "02-408-5680", href: "tel:024085680" },
-            { icon: "💬", label: "Line Official", value: "@udppackaging", href: "https://line.me/R/ti/p/@udppackaging" },
-            { icon: "👍", label: "Facebook", value: "udp159", href: "https://facebook.com/udp159" },
-          ].map(({ icon, label, value, href }) => (
-            <a key={label} href={href} style={{ display: "flex", alignItems: "center", gap: "14px", textDecoration: "none" }}>
-              <div style={{
-                width: "46px", height: "46px", borderRadius: "13px",
-                background: "#1D9E75", display: "flex",
-                alignItems: "center", justifyContent: "center",
-                fontSize: "20px", flexShrink: 0,
-              }}>{icon}</div>
-              <div>
-                <div style={{ fontSize: "11px", color: "#6b7280", marginBottom: "2px" }}>{label}</div>
-                <div style={{ fontSize: "14px", fontWeight: 700, color: "#053D31" }}>{value}</div>
-              </div>
-            </a>
-          ))}
-        </div>
-      </section>
     </main>
   );
 }

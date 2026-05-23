@@ -45,336 +45,142 @@ const PRODUCTS = {
     options: ["ลูกฟูก 3 ชั้น", "ลูกฟูก 5 ชั้น", "พิมพ์โลโก้", "ไม่พิมพ์"],
     related: ["box-cosmetic", "sticker-roll", "bag-paper"],
   },
-  "sticker-roll": {
-    name: "สติ๊กเกอร์ม้วน", cat: "สติ๊กเกอร์", icon: "🏷️",
-    price: "เริ่มต้น ฿0.50 / ดวง", moq: "1,000 ดวง", lead: "3–5 วันทำการ",
-    desc: "สติ๊กเกอร์ม้วนพิมพ์ดิจิทัลความละเอียดสูง กันน้ำ ทนความร้อน เหมาะสำหรับฉลากสินค้า บาร์โค้ด และ label ทุกประเภท",
-    specs: [
-      { label: "วัสดุ", value: "กระดาษ / PVC / PET" },
-      { label: "การพิมพ์", value: "Digital 4 สี" },
-      { label: "กาว", value: "กาวถาวร / กาวถอดได้" },
-      { label: "MOQ", value: "1,000 ดวง" },
-      { label: "ระยะเวลาผลิต", value: "3–5 วันทำการ" },
-    ],
-    options: ["กระดาษ", "PVC กันน้ำ", "PET ทนร้อน", "กาวถาวร", "กาวถอดได้"],
-    related: ["sticker-cut", "box-cosmetic", "bag-paper"],
-  },
-  "sticker-cut": {
-    name: "สติ๊กเกอร์ตัดรูป", cat: "สติ๊กเกอร์", icon: "✂️",
-    price: "เริ่มต้น ฿1.50 / ดวง", moq: "500 ดวง", lead: "5–7 วันทำการ",
-    desc: "สติ๊กเกอร์ Die-cut ตัดตามรูปทรงที่กำหนด ทุกรูปทรงและขนาด พิมพ์ดิจิทัลสีสด เหมาะสำหรับงานโปรโมชั่น สินค้า และ branding",
-    specs: [
-      { label: "วัสดุ", value: "กระดาษ / PVC" },
-      { label: "การพิมพ์", value: "Digital 4 สี" },
-      { label: "การตัด", value: "Die-cut ตามแบบ" },
-      { label: "MOQ", value: "500 ดวง" },
-      { label: "ระยะเวลาผลิต", value: "5–7 วันทำการ" },
-    ],
-    options: ["กระดาษด้าน", "กระดาษมัน", "PVC ใส", "PVC ขาว"],
-    related: ["sticker-roll", "bag-paper", "brochure-tri"],
-  },
-  "bag-paper": {
-    name: "ถุงกระดาษหูเชือก", cat: "ถุงกระดาษ", icon: "🛍️",
-    price: "เริ่มต้น ฿9 / ใบ", moq: "500 ใบ", lead: "7–10 วันทำการ",
-    desc: "ถุงกระดาษ Kraft พิมพ์โลโก้สีสด หูเชือกฝ้ายหรือหูแบนแข็งแรง เหมาะสำหรับร้านค้า แบรนด์แฟชั่น และของขวัญพรีเมียม",
-    specs: [
-      { label: "วัสดุ", value: "กระดาษ Kraft / อาร์ต" },
-      { label: "การพิมพ์", value: "4 สีออฟเซ็ท" },
-      { label: "หูถุง", value: "เชือกฝ้าย / หูแบน" },
-      { label: "MOQ", value: "500 ใบ" },
-      { label: "ระยะเวลาผลิต", value: "7–10 วันทำการ" },
-    ],
-    options: ["กระดาษ Kraft", "กระดาษอาร์ต", "หูเชือกฝ้าย", "หูแบน"],
-    related: ["bag-duplex", "box-cosmetic", "sticker-roll"],
-  },
-  "bag-duplex": {
-    name: "ถุงกระดาษ Duplex", cat: "ถุงกระดาษ", icon: "🧴",
-    price: "เริ่มต้น ฿14 / ใบ", moq: "500 ใบ", lead: "10–14 วันทำการ",
-    desc: "ถุงกระดาษ Duplex ผิวเคลือบ PP ด้านหรือมัน ดูพรีเมียม หรูหรา เหมาะสำหรับแบรนด์สกินแคร์ เครื่องสำอาง และสินค้า luxury",
-    specs: [
-      { label: "วัสดุ", value: "กระดาษ Duplex 350 แกรม" },
-      { label: "การพิมพ์", value: "4 สีออฟเซ็ท" },
-      { label: "เคลือบผิว", value: "PP ด้าน / PP มัน" },
-      { label: "MOQ", value: "500 ใบ" },
-      { label: "ระยะเวลาผลิต", value: "10–14 วันทำการ" },
-    ],
-    options: ["เคลือบ PP ด้าน", "เคลือบ PP มัน", "ฟอยล์ทอง", "ริบบิ้น"],
-    related: ["bag-paper", "box-cosmetic", "sticker-cut"],
-  },
-  "brochure-tri": {
-    name: "แผ่นพับ 3 ตอน", cat: "แผ่นพับ", icon: "📄",
-    price: "เริ่มต้น ฿4 / แผ่น", moq: "500 แผ่น", lead: "3–5 วันทำการ",
-    desc: "แผ่นพับ A4 พับ 3 ตอน พิมพ์ 4 สีออฟเซ็ท บนกระดาษอาร์ตมันหรืออาร์ตด้าน เหมาะสำหรับ brochure บริษัท เมนูอาหาร และสื่อโปรโมต",
-    specs: [
-      { label: "วัสดุ", value: "อาร์ตมัน / อาร์ตด้าน 150 แกรม" },
-      { label: "การพิมพ์", value: "4 สีออฟเซ็ท 2 หน้า" },
-      { label: "ขนาด", value: "A4 พับ 3 / DL / กำหนดเอง" },
-      { label: "MOQ", value: "500 แผ่น" },
-      { label: "ระยะเวลาผลิต", value: "3–5 วันทำการ" },
-    ],
-    options: ["อาร์ตมัน", "อาร์ตด้าน", "เคลือบ UV", "ไม่เคลือบ"],
-    related: ["catalog", "sticker-roll", "box-cosmetic"],
-  },
-  "catalog": {
-    name: "แค็ตตาล็อกสินค้า", cat: "แผ่นพับ", icon: "📒",
-    price: "เริ่มต้น ฿35 / เล่ม", moq: "200 เล่ม", lead: "7–10 วันทำการ",
-    desc: "แค็ตตาล็อกเข้าเล่มไสกาว หรือเย็บมุมลวด พิมพ์ 4 สีทั้งเล่ม ปกแข็งหรือปกอ่อน เหมาะสำหรับนำเสนอสินค้าและบริการอย่างมืออาชีพ",
-    specs: [
-      { label: "วัสดุเนื้อใน", value: "อาร์ตมัน 130 แกรม" },
-      { label: "วัสดุปก", value: "อาร์ตการ์ด 250 แกรม" },
-      { label: "การเข้าเล่ม", value: "ไสกาว / เย็บมุมลวด" },
-      { label: "MOQ", value: "200 เล่ม" },
-      { label: "ระยะเวลาผลิต", value: "7–10 วันทำการ" },
-    ],
-    options: ["ไสกาว", "เย็บมุมลวด", "ปกเคลือบ UV", "ปกเคลือบ PP"],
-    related: ["brochure-tri", "box-cosmetic", "sticker-roll"],
-  },
 };
-
-const ALL_PRODUCTS = {
-  "box-food":     { name:"กล่องอาหาร",        icon:"🍱" },
-  "box-shipping": { name:"กล่องไปรษณีย์",     icon:"📫" },
-  "sticker-roll": { name:"สติ๊กเกอร์ม้วน",   icon:"🏷️" },
-  "bag-paper":    { name:"ถุงกระดาษหูเชือก",  icon:"🛍️" },
-  "brochure-tri": { name:"แผ่นพับ 3 ตอน",     icon:"📄" },
-  ...PRODUCTS,
-};
-
-const highlights = [
-  { icon: "⏱️", text: "ส่งใบเสนอราคาใน 1 ชั่วโมง" },
-  { icon: "✅", text: "ส่ง proof ก่อนพิมพ์จริง" },
-  { icon: "🌿", text: "วัสดุ Eco-Friendly" },
-];
 
 export default function ProductDetail() {
   const { id } = useParams();
   const p = PRODUCTS[id];
   const { addItem } = useCart();
-  const navigate = useNavigate();
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [qty, setQty] = useState("");
   const [added, setAdded] = useState(false);
 
   function handleAddToCart() {
-    addItem(
-      { id, icon: p.icon, name: p.name, price: p.price, moq: p.moq },
-      parseInt(qty) || 1,
-      selectedOptions
-    );
+    if (!p) return;
+    addItem({ id, icon: p.icon, name: p.name, price: p.price, moq: p.moq }, parseInt(qty) || 1, selectedOptions);
     setAdded(true);
     setTimeout(() => setAdded(false), 2000);
   }
 
   function toggleOption(opt) {
-    setSelectedOptions(prev =>
-      prev.includes(opt) ? prev.filter(o => o !== opt) : [...prev, opt]
-    );
+    setSelectedOptions(prev => prev.includes(opt) ? prev.filter(o => o !== opt) : [...prev, opt]);
   }
 
   if (!p) return (
-    <main style={{ fontFamily: "'Sarabun',sans-serif", padding: "80px 48px", textAlign: "center" }}>
-      <div style={{ fontSize: 64, marginBottom: 16 }}>🔍</div>
-      <h1 style={{ fontSize: 22, fontWeight: 700, color: "#1a1a1a", marginBottom: 8 }}>ไม่พบสินค้านี้</h1>
-      <p style={{ color: "#6b7280", marginBottom: 24 }}>อาจถูกลบหรือ URL ไม่ถูกต้อง</p>
-      <Link to="/products" style={{ background: "#1D9E75", color: "#fff", padding: "12px 28px", borderRadius: 28, textDecoration: "none", fontWeight: 700, fontSize: 14 }}>
-        กลับหน้าสินค้า
+    <div className="font-['Sarabun'] py-24 text-center max-w-sm mx-auto px-4">
+      <div className="text-6xl mb-4">🔍</div>
+      <h1 className="text-xl font-bold text-gray-900 mb-2">ไม่พบสินค้าที่คุณต้องการ</h1>
+      <p className="text-sm text-gray-500 mb-6">ลิงก์อาจไม่ถูกต้องหรือสินค้านี้ถูกยกเลิกชั่วคราว</p>
+      <Link to="/products" className="bg-[#0D5C44] text-white px-6 py-2.5 rounded-full no-underline font-bold text-sm shadow">
+        กลับไปหน้าสินค้าทั้งหมด
       </Link>
-    </main>
+    </div>
   );
 
   return (
-    <main style={{ fontFamily: "'Sarabun',sans-serif", background: "#FAFAF8", minHeight: "100vh" }}>
-
-      {/* Breadcrumb */}
-      <div style={{ padding: "14px 48px", background: "#fff", borderBottom: "1px solid #f0f0ee", fontSize: 13, color: "#9ca3af", display: "flex", alignItems: "center", gap: 6 }}>
-        <Link to="/" style={{ color: "#9ca3af", textDecoration: "none" }}>หน้าแรก</Link>
+    <main className="font-['Sarabun'] bg-[#FAFAF8] min-h-screen text-left">
+      {/* Breadcrumb Navigation */}
+      <div className="bg-white border-b border-gray-100 py-3.5 px-6 md:px-12 text-xs text-gray-400 flex items-center gap-2">
+        <Link to="/" className="text-gray-400 no-underline hover:text-[#0D5C44]">หน้าแรก</Link>
         <span>›</span>
-        <Link to="/products" style={{ color: "#9ca3af", textDecoration: "none" }}>สินค้า</Link>
+        <Link to="/products" className="text-gray-400 no-underline hover:text-[#0D5C44]">สินค้า</Link>
         <span>›</span>
-        <span style={{ color: "#1a1a1a", fontWeight: 500 }}>{p.name}</span>
+        <span className="text-gray-900 font-medium">{p.name}</span>
       </div>
 
-      <div style={{ padding: "40px 48px", display: "grid", gridTemplateColumns: "1fr 420px", gap: 48, alignItems: "start", maxWidth: 1200, margin: "0 auto" }}>
-
-        {/* Left */}
-        <div>
-          {/* Product Visual */}
-          <div style={{
-            background: "linear-gradient(135deg, #E1F5EE 0%, #9FE1CB 100%)",
-            borderRadius: 24,
-            height: 340,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            marginBottom: 32,
-            position: "relative",
-            overflow: "hidden",
-          }}>
-            <div style={{ position: "absolute", top: -30, right: -30, width: 140, height: 140, borderRadius: "50%", background: "rgba(255,255,255,0.3)" }} />
-            <div style={{ position: "absolute", bottom: -20, left: -20, width: 100, height: 100, borderRadius: "50%", background: "rgba(255,255,255,0.2)" }} />
-            <span style={{ fontSize: 110, position: "relative" }}>{p.icon}</span>
-            <span style={{
-              position: "absolute", top: 16, left: 16,
-              background: "#1D9E75", color: "#fff",
-              fontSize: 12, padding: "5px 14px", borderRadius: 20, fontWeight: 600,
-            }}>{p.cat}</span>
+      <div className="max-w-6xl mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-3 gap-10 items-start">
+        {/* Left Column: Visual Area + Specs */}
+        <div className="md:col-span-2">
+          <div className="bg-gradient-to-br from-[#E1F5EE] to-[#9FE1CB] rounded-2xl h-72 md:h-96 flex items-center justify-center relative overflow-hidden mb-8 shadow-inner">
+            <span className="text-8xl md:text-9xl filter drop-shadow-lg">{p.icon}</span>
+            <span className="absolute top-4 left-4 bg-[#0D5C44] text-white text-xs font-bold px-4 py-1.5 rounded-full">{p.cat}</span>
           </div>
 
-          {/* Specs */}
-          <div style={{ background: "#fff", borderRadius: 16, border: "1px solid #e5e7eb", overflow: "hidden" }}>
-            <div style={{ padding: "16px 24px", background: "#F9F9F7", borderBottom: "1px solid #e5e7eb" }}>
-              <h2 style={{ fontSize: 15, fontWeight: 700, color: "#1a1a1a", margin: 0 }}>ข้อมูลจำเพาะ</h2>
+          {/* Specifications Table */}
+          <div className="bg-white rounded-xl border border-gray-100 overflow-hidden shadow-sm">
+            <div className="bg-gray-50/70 border-b border-gray-100 px-6 py-4">
+              <h2 className="text-sm md:text-base font-bold text-gray-900 m-0">ข้อมูลทางเทคนิคและสเปคการผลิต</h2>
             </div>
-            <div style={{ padding: "8px 0" }}>
-              {p.specs.map(({ label, value }, i) => (
-                <div key={label} style={{
-                  display: "flex",
-                  alignItems: "center",
-                  padding: "12px 24px",
-                  background: i % 2 === 0 ? "#fff" : "#FAFAF8",
-                }}>
-                  <span style={{ fontSize: 13, color: "#6b7280", width: "40%", flexShrink: 0 }}>{label}</span>
-                  <span style={{ fontSize: 13, color: "#1a1a1a", fontWeight: 600 }}>{value}</span>
+            <div className="divide-y divide-gray-50">
+              {p.specs.map((spec, i) => (
+                <div key={i} className="flex px-6 py-3.5 text-xs md:text-sm">
+                  <span className="text-gray-500 w-1/3 shrink-0">{spec.label}</span>
+                  <span className="text-gray-900 font-semibold">{spec.value}</span>
                 </div>
               ))}
             </div>
           </div>
         </div>
 
-        {/* Right */}
-        <div style={{ position: "sticky", top: 20 }}>
-          <div style={{ fontSize: 12, color: "#1D9E75", fontWeight: 600, marginBottom: 6, letterSpacing: "0.5px" }}>{p.cat}</div>
-          <h1 style={{ fontSize: 28, fontWeight: 700, color: "#1a1a1a", marginBottom: 10, lineHeight: 1.3 }}>{p.name}</h1>
-          <p style={{ fontSize: 14, color: "#6b7280", lineHeight: 1.85, marginBottom: 24 }}>{p.desc}</p>
+        {/* Right Column: Order Panel Sticky */}
+        <div className="md:sticky md:top-24 bg-white rounded-2xl border border-gray-100 p-6 shadow-md">
+          <span className="text-xs font-bold text-[#1A8A6A] tracking-wider block mb-1 uppercase">{p.cat}</span>
+          <h1 className="text-xl md:text-2xl font-bold text-gray-900 mb-3">{p.name}</h1>
+          <p className="text-xs md:text-sm text-gray-500 leading-relaxed mb-6">{p.desc}</p>
 
-          {/* Key Metrics */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10, marginBottom: 24 }}>
+          {/* Quick Summary Badges */}
+          <div className="grid grid-cols-3 gap-2.5 mb-6">
             {[
-              { label: "ราคาเริ่มต้น", value: p.price, color: "#1D9E75" },
-              { label: "MOQ", value: p.moq, color: "#1a1a1a" },
-              { label: "ระยะเวลา", value: p.lead, color: "#1a1a1a" },
-            ].map(({ label, value, color }) => (
-              <div key={label} style={{ background: "#F9F9F7", borderRadius: 12, padding: "14px 12px", textAlign: "center", border: "1px solid #e5e7eb" }}>
-                <div style={{ fontSize: 10, color: "#9ca3af", marginBottom: 4 }}>{label}</div>
-                <div style={{ fontSize: 13, fontWeight: 700, color }}>{value}</div>
+              { title: "ราคาเริ่มต้น", val: p.price, highlight: true },
+              { title: "ขั้นต่ำ (MOQ)", val: p.moq },
+              { title: "ระยะเวลาผลิต", val: p.lead },
+            ].map((b, i) => (
+              <div key={i} className="bg-gray-50 border border-gray-100 rounded-xl p-3 text-center">
+                <div className="text-[10px] text-gray-400 mb-1">{b.title}</div>
+                <div className={`text-xs font-bold ${b.highlight ? "text-[#0D5C44]" : "text-gray-800"}`}>{b.val}</div>
               </div>
             ))}
           </div>
 
-          {/* Options */}
-          <div style={{ marginBottom: 24 }}>
-            <div style={{ fontSize: 13, fontWeight: 600, color: "#374151", marginBottom: 10 }}>ตัวเลือก / ฟินิช</div>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-              {p.options.map(opt => (
-                <button key={opt} onClick={() => toggleOption(opt)} style={{
-                  padding: "7px 16px",
-                  borderRadius: 20,
-                  fontSize: 12,
-                  fontWeight: 500,
-                  border: "2px solid",
-                  borderColor: selectedOptions.includes(opt) ? "#1D9E75" : "#e5e7eb",
-                  background: selectedOptions.includes(opt) ? "#E1F5EE" : "#fff",
-                  color: selectedOptions.includes(opt) ? "#085041" : "#374151",
-                  cursor: "pointer",
-                  transition: "all .15s",
-                  fontFamily: "'Sarabun',sans-serif",
-                }}>{opt}</button>
-              ))}
+          {/* Options Selectors */}
+          <div className="mb-6">
+            <div className="text-xs font-bold text-gray-700 mb-2.5">เลือกออปชัน / เทคนิคพิเศษ</div>
+            <div className="flex flex-wrap gap-2">
+              {p.options.map((opt) => {
+                const isSelected = selectedOptions.includes(opt);
+                return (
+                  <button
+                    key={opt}
+                    onClick={() => toggleOption(opt)}
+                    className={`text-xs px-3.5 py-1.5 rounded-full border transition-all ${
+                      isSelected 
+                        ? "border-[#0D5C44] bg-[#E1F5EE] text-[#085041] font-semibold" 
+                        : "border-gray-200 bg-white text-gray-600 hover:border-gray-300"
+                    }`}
+                  >
+                    {opt}
+                  </button>
+                );
+              })}
             </div>
           </div>
 
-          {/* Order Form */}
-          <div style={{ background: "#fff", borderRadius: 16, padding: 20, border: "1px solid #e5e7eb", marginBottom: 16 }}>
-            <div style={{ fontSize: 14, fontWeight: 700, color: "#1a1a1a", marginBottom: 14 }}>สั่งซื้อ / ขอใบเสนอราคา</div>
-            {[
-              { placeholder: "ชื่อ - บริษัท", type: "text" },
-              { placeholder: "เบอร์โทรติดต่อ", type: "tel" },
-            ].map((inp) => (
-              <input key={inp.placeholder} type={inp.type} placeholder={inp.placeholder} style={{
-                display: "block", width: "100%",
-                border: "1px solid #e5e7eb", borderRadius: 10,
-                padding: "11px 14px", fontSize: 14, marginBottom: 10,
-                outline: "none", boxSizing: "border-box",
-                fontFamily: "'Sarabun',sans-serif", color: "#1a1a1a",
-              }} />
-            ))}
-            <input
-              type="text"
-              placeholder={`จำนวน (MOQ: ${p.moq})`}
+          {/* Interactive Form Actions */}
+          <div className="bg-gray-50 rounded-xl p-4 border border-gray-100 mb-4">
+            <input type="text" placeholder="ชื่อลูกค้า / บริษัท" className="w-full text-xs border border-gray-200 rounded-lg p-2.5 mb-2 outline-none focus:border-[#0D5C44] transition-colors font-['Sarabun']" />
+            <input type="tel" placeholder="เบอร์โทรศัพท์ติดต่อ" className="w-full text-xs border border-gray-200 rounded-lg p-2.5 mb-3 outline-none focus:border-[#0D5C44] transition-colors font-['Sarabun']" />
+            <input 
+              type="text" 
+              placeholder={`ระบุจำนวน (ขั้นต่ำ ${p.moq})`} 
               value={qty}
               onChange={e => setQty(e.target.value)}
-              style={{
-                display: "block", width: "100%",
-                border: "1px solid #e5e7eb", borderRadius: 10,
-                padding: "11px 14px", fontSize: 14, marginBottom: 14,
-                outline: "none", boxSizing: "border-box",
-                fontFamily: "'Sarabun',sans-serif", color: "#1a1a1a",
-              }}
+              className="w-full text-xs border border-gray-200 rounded-lg p-2.5 mb-4 outline-none focus:border-[#0D5C44] transition-colors font-['Sarabun'] font-semibold"
             />
-            <div style={{ display: "flex", gap: 10 }}>
-              <button onClick={handleAddToCart} style={{
-                flex: 2,
-                background: added ? "#085041" : "#1D9E75",
-                color: "#fff", border: "none", padding: "13px",
-                borderRadius: 12, fontSize: 14, fontWeight: 700,
-                cursor: "pointer", fontFamily: "'Sarabun',sans-serif",
-                transition: "background .2s",
-              }}>
-                {added ? "✅ เพิ่มแล้ว!" : "🛒 เพิ่มลงตะกร้า"}
+            
+            <div className="flex gap-2">
+              <button 
+                onClick={handleAddToCart}
+                className={`flex-[2] py-3 rounded-xl text-xs font-bold text-white transition-colors ${added ? "bg-[#085041]" : "bg-[#0D5C44] hover:bg-[#0A3828]"}`}
+              >
+                {added ? "✅ เพิ่มลงตะกร้าแล้ว" : "🛒 เพิ่มลงตะกร้า"}
               </button>
-              <Link to="/cart" style={{
-                flex: 1, textAlign: "center",
-                background: "#F9F9F7", color: "#374151",
-                border: "1px solid #e5e7eb", padding: "13px",
-                borderRadius: 12, fontSize: 13, fontWeight: 500,
-                textDecoration: "none", display: "flex",
-                alignItems: "center", justifyContent: "center",
-              }}>ดูตะกร้า</Link>
+              <Link to="/cart" className="flex-[1] text-center text-xs font-medium border border-gray-200 bg-white text-gray-700 py-3 rounded-xl no-underline hover:bg-gray-50 transition-colors flex items-center justify-center">
+                ดูตะกร้า
+              </Link>
             </div>
-          </div>
-
-          {/* Trust Signals */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-            {highlights.map(({ icon, text }) => (
-              <div key={text} style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 13, color: "#374151" }}>
-                <span style={{ fontSize: 16 }}>{icon}</span> {text}
-              </div>
-            ))}
           </div>
         </div>
       </div>
-
-      {/* Related Products */}
-      <section style={{ padding: "0 48px 56px", maxWidth: 1200, margin: "0 auto" }}>
-        <h2 style={{ fontSize: 18, fontWeight: 700, color: "#1a1a1a", marginBottom: 20 }}>สินค้าที่เกี่ยวข้อง</h2>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
-          {p.related.map(rid => {
-            const r = PRODUCTS[rid] || ALL_PRODUCTS[rid];
-            if (!r) return null;
-            return (
-              <Link to={`/products/${rid}`} key={rid} style={{ textDecoration: "none" }}>
-                <div style={{
-                  background: "#fff", border: "1px solid #e5e7eb",
-                  borderRadius: 16, overflow: "hidden",
-                  transition: "all .2s",
-                  display: "flex", alignItems: "center", gap: 14, padding: 16,
-                }}
-                  onMouseEnter={e => { e.currentTarget.style.borderColor = "#1D9E75"; e.currentTarget.style.boxShadow = "0 4px 16px rgba(29,158,117,0.12)"; }}
-                  onMouseLeave={e => { e.currentTarget.style.borderColor = "#e5e7eb"; e.currentTarget.style.boxShadow = "none"; }}
-                >
-                  <div style={{ width: 52, height: 52, background: "#E1F5EE", borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 28, flexShrink: 0 }}>
-                    {r.icon}
-                  </div>
-                  <div>
-                    <div style={{ fontSize: 14, fontWeight: 600, color: "#1a1a1a" }}>{r.name}</div>
-                    <div style={{ fontSize: 12, color: "#1D9E75", marginTop: 2 }}>ดูรายละเอียด →</div>
-                  </div>
-                </div>
-              </Link>
-            );
-          })}
-        </div>
-      </section>
     </main>
   );
 }

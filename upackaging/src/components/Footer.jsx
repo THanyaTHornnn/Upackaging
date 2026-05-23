@@ -8,7 +8,11 @@ export default function Footer() {
         {/* Brand */}
         <div>
           <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "16px" }}>
-            <div style={{ width: "38px", height: "38px", borderRadius: "10px", background: "linear-gradient(135deg,#1D9E75,#9FE1CB)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "20px", fontWeight: 800, color: "#053D31" }}>U</div>
+            <img
+              src="/logo.png"
+              alt="U Packaging Logo"
+              style={{ width: "48px", height: "48px", borderRadius: "50%", objectFit: "cover" }}
+            />
             <div style={{ color: "#fff", fontSize: "16px", fontWeight: 700 }}>UDP <span style={{ color: "#9FE1CB" }}>Packaging</span></div>
           </div>
           <p style={{ fontSize: "13px", lineHeight: 1.9, marginBottom: "20px", maxWidth: "260px" }}>

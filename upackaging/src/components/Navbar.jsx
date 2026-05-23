@@ -3,18 +3,18 @@ import { Link, NavLink } from "react-router-dom";
 import { useCart } from "../store/cartStore";
 
 const productCategories = [
-  { label: "กล่องบรรจุภัณฑ์",           slug: "กล่องบรรจุภัณฑ์",  icon: "📦" },
-  { label: "เมทัลลิค (ฟอยล์)",           slug: "เมทัลลิค",         icon: "✨" },
-  { label: "ออฟเซ็ทประกบลูกฟูก",        slug: "ออฟเซ็ทประกบลูกฟูก", icon: "🗂️" },
-  { label: "กล่องลูกฟูก",                slug: "กล่องลูกฟูก",      icon: "📮" },
-  { label: "สติ๊กเกอร์ (ม้วนและแผ่น)",  slug: "สติ๊กเกอร์",       icon: "🏷️" },
-  { label: "ฉลากสินค้า",                 slug: "ฉลากสินค้า",       icon: "🔖" },
-  { label: "Hangtag",                    slug: "Hangtag",           icon: "🪧" },
-  { label: "แผ่นพับ โบรชัวร์",           slug: "แผ่นพับ",           icon: "📄" },
-  { label: "Blister Card & Screen pack", slug: "Blister",           icon: "💊" },
-  { label: "แค็ตตาล็อก",                slug: "แค็ตตาล็อก",       icon: "📒" },
-  { label: "ถุงกระดาษ",                  slug: "ถุงกระดาษ",         icon: "🛍️" },
-  { label: "ปฏิทินและอื่นๆ",             slug: "ปฏิทิน",            icon: "📅" },
+  { label: "กล่องบรรจุภัณฑ์",           slug: "กล่องบรรจุภัณฑ์",       icon: "ti-package" },
+  { label: "เมทัลลิค (ฟอยล์)",           slug: "เมทัลลิค",              icon: "ti-sparkles" },
+  { label: "ออฟเซ็ทประกบลูกฟูก",         slug: "ออฟเซ็ทประกบลูกฟูก",    icon: "ti-layers-difference" },
+  { label: "กล่องลูกฟูก",                slug: "กล่องลูกฟูก",           icon: "ti-box" },
+  { label: "สติ๊กเกอร์ (ม้วนและแผ่น)",   slug: "สติ๊กเกอร์",            icon: "ti-tag" },
+  { label: "ฉลากสินค้า",                 slug: "ฉลากสินค้า",            icon: "ti-bookmark" },
+  { label: "Hangtag",                    slug: "Hangtag",               icon: "ti-label" },
+  { label: "แผ่นพับ โบรชัวร์",           slug: "แผ่นพับ",               icon: "ti-file-text" },
+  { label: "Blister Card & Screen pack", slug: "Blister",               icon: "ti-layout-grid" },
+  { label: "แค็ตตาล็อก",                slug: "แค็ตตาล็อก",            icon: "ti-book" },
+  { label: "ถุงกระดาษ",                  slug: "ถุงกระดาษ",              icon: "ti-shopping-bag" },
+  { label: "ปฏิทินและอื่นๆ",             slug: "ปฏิทิน",                icon: "ti-calendar" },
 ];
 
 export default function Navbar() {
@@ -24,113 +24,80 @@ export default function Navbar() {
   const dropdownRef = useRef(null);
 
   useEffect(() => {
-    function handleClick(e) {
+    const handleClick = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) setOpen(false);
-    }
+    };
     document.addEventListener("mousedown", handleClick);
     return () => document.removeEventListener("mousedown", handleClick);
   }, []);
 
   useEffect(() => {
-    function onScroll() { setScrolled(window.scrollY > 8); }
+    const onScroll = () => setScrolled(window.scrollY > 8);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
-    <nav style={{
-      background: scrolled ? "rgba(13, 138, 111, 0.97)" : "#0f987a",
-      backdropFilter: scrolled ? "blur(12px)" : "none",
-      padding: "0 40px",
-      height: "64px",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "space-between",
-      position: "sticky",
-      top: 0,
-      zIndex: 1000,
-      boxShadow: scrolled ? "0 2px 24px rgba(0,0,0,0.2)" : "none",
-      transition: "all .3s ease",
-      fontFamily: "'Sarabun', sans-serif",
-    }}>
-      {/* Logo */}
-      <Link to="/" style={{ color: "#fff", textDecoration: "none", display: "flex", alignItems: "center", gap: "10px" }}>
-        <div style={{
-          width: "36px", height: "36px", borderRadius: "10px",
-          background: "linear-gradient(135deg,#1D9E75,#9FE1CB)",
-          display: "flex", alignItems: "center", justifyContent: "center",
-          fontSize: "18px", fontWeight: 800, color: "#053D31",
-          flexShrink: 0,
-        }}>U</div>
-        <div style={{ lineHeight: 1.1 }}>
-          <div style={{ fontSize: "16px", fontWeight: 700, letterSpacing: "0.3px" }}>UDP <span style={{ color: "#9FE1CB" }}>Packaging</span></div>
-          <div style={{ fontSize: "10px", color: "rgba(255,255,255,0.5)", letterSpacing: "1px" }}>PRINT & PACKAGING</div>
+    <nav className={`sticky top-0 z-[1000] h-16 md:h-[72px] px-4 md:px-12 flex items-center justify-between transition-all duration-300 font-['Sarabun'] ${
+      scrolled 
+        ? "bg-[#0A3828]/95 backdrop-blur-md border-b border-[#7EC8C8]/20 shadow-lg shadow-black/10" 
+        : "bg-[#0D5C44]/90 backdrop-blur-md border-b border-white/5 shadow-md"
+    }`}>
+      {/* Brand Logo */}
+      <Link to="/" className="flex items-center gap-3 shrink-0 no-underline group">
+        <div className="w-10 h-10 md:w-11 md:h-11 rounded-full overflow-hidden border-2 border-[#7EC8C8]/30 shadow-md transition-transform duration-300 group-hover:scale-105">
+          <img src="/logo.png" alt="UDP Packaging" className="w-full h-full object-cover" />
+        </div>
+        <div className="leading-tight">
+          <div className="text-sm md:text-base font-bold text-white tracking-wide">
+            UDP <span className="text-[#7EC8C8] transition-colors duration-300 group-hover:text-white">Packaging</span>
+          </div>
+          <div className="text-[9px] md:text-[10px] text-[#7EC8C8]/70 tracking-[2px] uppercase font-medium">
+            Print &amp; Packaging
+          </div>
         </div>
       </Link>
 
-      {/* Nav Links */}
-      <ul style={{ display: "flex", gap: "4px", listStyle: "none", margin: 0, padding: 0, alignItems: "center" }}>
+      {/* Nav Links - Desktop */}
+      <ul className="hidden md:flex items-center gap-1 list-none m-0 p-0">
         <li>
-          <NavLink to="/" end style={({ isActive }) => ({
-            color: isActive ? "#fff" : "rgba(255,255,255,0.7)",
-            fontWeight: isActive ? 600 : 400,
-            fontSize: "14px", textDecoration: "none",
-            padding: "6px 14px", borderRadius: "8px",
-            background: isActive ? "rgba(255,255,255,0.1)" : "transparent",
-            transition: "all .15s",
-            display: "block",
-          })}>หน้าแรก</NavLink>
+          <NavLink to="/" end className={({ isActive }) => `text-sm px-4 py-2 rounded-lg transition-all duration-200 no-underline ${isActive ? "text-white font-semibold bg-[#7EC8C8]/20" : "text-white/80 hover:text-white hover:bg-[#7EC8C8]/10"}`}>
+            หน้าแรก
+          </NavLink>
         </li>
 
-        {/* สินค้า Dropdown */}
-        <li ref={dropdownRef} style={{ position: "relative" }}>
-          <button onClick={() => setOpen(v => !v)} style={{
-            background: open ? "rgba(255,255,255,0.1)" : "transparent",
-            border: "none", cursor: "pointer", padding: "6px 14px",
-            color: open ? "#fff" : "rgba(255,255,255,0.7)",
-            fontWeight: open ? 600 : 400,
-            fontSize: "14px", display: "flex", alignItems: "center", gap: "5px",
-            borderRadius: "8px", fontFamily: "'Sarabun', sans-serif",
-            transition: "all .15s",
-          }}>
+        {/* Products Dropdown */}
+        <li ref={dropdownRef} className="relative">
+          <button
+            onClick={() => setOpen(!open)}
+            className={`text-sm px-4 py-2 rounded-lg transition-all duration-200 flex items-center gap-1.5 font-['Sarabun'] cursor-pointer ${
+              open ? "text-white font-semibold bg-[#7EC8C8]/20" : "text-white/80 hover:text-white hover:bg-[#7EC8C8]/10"
+            }`}
+          >
             สินค้า
-            <span style={{
-              fontSize: "9px", display: "inline-block",
-              transition: "transform .2s",
-              transform: open ? "rotate(180deg)" : "rotate(0deg)",
-            }}>▼</span>
+            <span className={`text-[9px] text-[#7EC8C8] transition-transform duration-300 ${open ? "rotate-180" : "rotate-0"}`}>▼</span>
           </button>
 
           {open && (
-            <div style={{
-              position: "absolute", top: "calc(100% + 12px)", left: "50%",
-              transform: "translateX(-50%)",
-              background: "#fff", borderRadius: "16px",
-              boxShadow: "0 20px 60px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.05)",
-              width: "260px", overflow: "hidden", zIndex: 200,
-              animation: "dropIn .15s ease",
-            }}>
-              <style>{`@keyframes dropIn { from { opacity:0; transform:translateX(-50%) translateY(-6px); } to { opacity:1; transform:translateX(-50%) translateY(0); } }`}</style>
-              <Link to="/products" onClick={() => setOpen(false)} style={{
-                display: "flex", alignItems: "center", gap: "10px",
-                padding: "14px 16px", fontSize: "13px", fontWeight: 700,
-                color: "#1D9E75", textDecoration: "none",
-                borderBottom: "1px solid #f3f4f6", background: "#f9fffe",
-              }}>
-                <span style={{ fontSize: "16px" }}>🛒</span>
+            <div className="absolute top-[calc(100%+12px)] left-1/2 -translate-x-1/2 bg-white rounded-2xl shadow-xl shadow-black/10 border border-gray-100 w-72 overflow-hidden z-[200] animate-fadeIn">
+              <Link
+                to="/products"
+                onClick={() => setOpen(false)}
+                className="flex items-center gap-3 p-4 text-sm font-bold text-[#0D5C44] no-underline border-b border-gray-50 bg-gradient-to-br from-[#f0faf7] to-[#e8f7f5] hover:opacity-95"
+              >
+                <span className="w-7 h-7 rounded-lg bg-[#0D5C44] flex items-center justify-center text-white text-xs">🛒</span>
                 ดูสินค้าทั้งหมด
               </Link>
 
-              <div style={{ padding: "6px 0" }}>
-                {productCategories.map(({ label, slug, icon }) => (
-                  <Link key={slug} to={`/products?cat=${encodeURIComponent(slug)}`} onClick={() => setOpen(false)} style={{
-                    display: "flex", alignItems: "center", gap: "10px",
-                    padding: "9px 16px", fontSize: "13px", color: "#374151",
-                    textDecoration: "none", transition: "background .1s",
-                  }}
-                    onMouseEnter={e => { e.currentTarget.style.background = "#E1F5EE"; e.currentTarget.style.color = "#053D31"; }}
-                    onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "#374151"; }}>
-                    <span style={{ fontSize: "14px", width: "20px", textAlign: "center" }}>{icon}</span>
+              <div className="py-1.5 max-h-[320px] overflow-y-auto scrollbar-thin">
+                {productCategories.map(({ label, slug }) => (
+                  <Link
+                    key={slug}
+                    to={`/products?cat=${encodeURIComponent(slug)}`}
+                    onClick={() => setOpen(false)}
+                    className="flex items-center gap-2.5 px-5 py-2.5 text-xs md:text-sm text-gray-700 no-underline transition-colors hover:bg-[#E8F7F5] hover:text-[#054040]"
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#1A8A6A] shrink-0 opacity-60" />
                     {label}
                   </Link>
                 ))}
@@ -145,41 +112,29 @@ export default function Navbar() {
           { to: "/contact",   label: "ติดต่อ" },
         ].map(({ to, label }) => (
           <li key={to}>
-            <NavLink to={to} style={({ isActive }) => ({
-              color: isActive ? "#fff" : "rgba(255,255,255,0.7)",
-              fontWeight: isActive ? 600 : 400,
-              fontSize: "14px", textDecoration: "none",
-              padding: "6px 14px", borderRadius: "8px",
-              background: isActive ? "rgba(255,255,255,0.1)" : "transparent",
-              transition: "all .15s", display: "block",
-            })}>{label}</NavLink>
+            <NavLink to={to} className={({ isActive }) => `text-sm px-4 py-2 rounded-lg transition-all duration-200 no-underline ${isActive ? "text-white font-semibold bg-[#7EC8C8]/20" : "text-white/80 hover:text-white hover:bg-[#7EC8C8]/10"}`}>
+              {label}
+            </NavLink>
           </li>
         ))}
       </ul>
 
       {/* Cart Button */}
-      <Link to="/cart" style={{
-        background: totalItems > 0 ? "#158561" : "rgba(255,255,255,0.15)",
-        color: "#fff", fontSize: "13px", fontWeight: 600,
-        padding: "8px 20px", borderRadius: "24px", textDecoration: "none",
-        display: "flex", alignItems: "center", gap: "7px",
-        border: "1.5px solid",
-        borderColor: totalItems > 0 ? "#1D9E75" : "rgba(255,255,255,0.3)",
-        transition: "all .2s",
-      }}
-        onMouseEnter={e => { e.currentTarget.style.background = "#16876300"; e.currentTarget.style.borderColor = "#fff"; }}
-        onMouseLeave={e => { e.currentTarget.style.background = totalItems > 0 ? "#1D9E75" : "rgba(255,255,255,0.15)"; e.currentTarget.style.borderColor = totalItems > 0 ? "#1D9E75" : "rgba(255,255,255,0.3)"; }}>
-        🛒
-        {totalItems > 0 ? (
-          <>
-            ตะกร้า
-            <span style={{
-              background: "#fff", color: "#053D31", fontSize: "11px",
-              fontWeight: 800, width: "20px", height: "20px",
-              borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center",
-            }}>{totalItems}</span>
-          </>
-        ) : "ตะกร้า"}
+      <Link
+        to="/cart"
+        className={`text-xs md:text-sm font-semibold px-4 py-2 md:px-5 md:py-2.5 rounded-full no-underline flex items-center gap-2 border transition-all duration-300 ${
+          totalItems > 0 
+            ? "bg-[#7EC8C8]/20 text-white border-[#7EC8C8] hover:bg-[#7EC8C8]/30" 
+            : "bg-white/10 text-white border-white/20 hover:bg-white/20 hover:border-white/40"
+        }`}
+      >
+        <span>🛒</span>
+        <span className="hidden sm:inline">ตะกร้า</span>
+        {totalItems > 0 && (
+          <span className="bg-[#7EC8C8] text-[#054040] text-[10px] font-extrabold w-5 h-5 rounded-full flex items-center justify-center animate-pulse">
+            {totalItems}
+          </span>
+        )}
       </Link>
     </nav>
   );
