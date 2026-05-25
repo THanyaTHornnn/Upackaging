@@ -16,10 +16,10 @@ const productCategories = [
 ];
 
 const trustItems = [
-  { icon: "🚚", title: "ส่งทั่วประเทศ", desc: "ทุกจังหวัด ครบทุกช่องทาง" },
-  { icon: "🏅", title: "รับประกันคุณภาพ", desc: "ตรงสี ตรงแบบ 100%" },
-  { icon: "🎨", title: "Pantone Matching", desc: "พิมพ์ตรงสีแม่นยำ" },
-  { icon: "🎧", title: "ตอบใน 1 ชั่วโมง", desc: "วันทำการ จ–ศ 8–17 น." },
+  {  title: "ส่งทั่วประเทศ", desc: "ทุกจังหวัด ครบทุกช่องทาง" },
+  {  title: "รับประกันคุณภาพ", desc: "ตรงสี ตรงแบบ 100%" },
+  {  title: "Pantone Matching", desc: "พิมพ์ตรงสีแม่นยำ" },
+  {  title: "ตอบใน 1 ชั่วโมง", desc: "วันทำการ จ–ศ 8–17 น." },
 ];
 
 const services = [
@@ -182,53 +182,78 @@ export default function Home() {
       </section>
 
       {/* ── About / Mission ── */}
-      <section className="py-16 md:py-20 px-6 max-w-6xl mx-auto">
-        <div className="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
-          <div className="grid grid-cols-1 md:grid-cols-2 items-stretch">
+      <section className="relative py-20 md:py-28 px-6 overflow-hidden bg-[#F8F9F7]">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#0D5C44]/15 to-transparent" />
+          <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#0D5C44]/15 to-transparent" />
+          <div className="absolute -top-40 -right-40 w-[500px] h-[500px] rounded-full bg-[#7EC8C8]/5 blur-3xl" />
+          <div className="absolute -bottom-40 -left-40 w-[400px] h-[400px] rounded-full bg-[#0D5C44]/5 blur-3xl" />
+        </div>
 
-            {/* Left accent */}
-            <div className="bg-gradient-to-br from-[#0A3828] to-[#0D5C44] p-10 md:p-14 flex flex-col justify-center relative overflow-hidden">
-              <div className="absolute -top-16 -right-16 w-64 h-64 rounded-full bg-white/5 pointer-events-none" />
-              <div className="absolute -bottom-10 -left-10 w-48 h-48 rounded-full bg-[#7EC8C8]/10 pointer-events-none" />
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 rounded-full bg-white/[0.02] pointer-events-none" />
+        <div className="relative max-w-5xl mx-auto">
 
-              <span className="text-[10px] font-bold text-[#7EC8C8] tracking-[3px] uppercase block mb-4">ABOUT US</span>
-              <h2 className="text-2xl md:text-3xl font-extrabold text-white leading-snug mb-6">
-                งานพิมพ์คุณภาพ<br />
-                <span className="text-[#7EC8C8]">ราคายุติธรรม</span><br />
-                ระยะเวลารวดเร็ว
-              </h2>
-
-              <div className="flex flex-wrap gap-3 mt-2">
-                {[
-                  { num: "20+", label: "ปีประสบการณ์" },
-                  { num: "5,000+", label: "ลูกค้าที่ไว้ใจ" },
-                  { num: "100%", label: "รับประกันคุณภาพ" },
-                ].map((stat, i) => (
-                  <div key={i} className="bg-white/10 border border-white/15 backdrop-blur-sm rounded-xl px-4 py-2.5 text-center min-w-[80px]">
-                    <div className="text-lg font-extrabold text-[#7EC8C8]">{stat.num}</div>
-                    <div className="text-[10px] text-white/55 mt-0.5 whitespace-nowrap">{stat.label}</div>
-                  </div>
-                ))}
+          {/* Logo + Label centered */}
+          <div className="flex flex-col items-center gap-3 mb-12">
+            <div className="flex items-center justify-center gap-4 w-full">
+              <div className="h-px flex-1 max-w-[80px] bg-gradient-to-r from-transparent to-[#0D5C44]/30" />
+              <div className="w-36 h-36 md:w-40 md:h-40 rounded-full overflow-hidden border-2 border-[#7EC8C8]/40 shadow-lg flex-shrink-0">
+                <img src="/logo.png" alt="UDP Packaging" className="w-full h-full object-cover" />
               </div>
+              <div className="h-px flex-1 max-w-[80px] bg-gradient-to-l from-transparent to-[#0D5C44]/30" />
             </div>
-
-            {/* Right body text */}
-            <div className="p-10 md:p-14 flex flex-col justify-center">
-              <p className="text-[#1C2B25] text-sm md:text-base leading-[1.9] font-['Sarabun'] mb-5">
-                <span className="font-bold text-[#0D5C44]">บจก.อุดมโภคทรัพย์ แพ็คเก็จจิ้ง</span> มุ่งมั่นพัฒนางานพิมพ์อย่างต่อเนื่อง จากการนำความต้องการของลูกค้าและตลาดมาปรับปรุง เพื่อเพิ่มประสิทธิภาพงานพิมพ์ให้สามารถตอบสนองความต้องการของลูกค้าให้ครอบคลุมทุกกลุ่มเป้าหมาย
-              </p>
-              <p className="text-gray-500 text-xs md:text-sm leading-[1.85] font-['Sarabun'] mb-8">
-                ด้วยเครื่องจักรที่ทันสมัยและทีมงานผู้เชี่ยวชาญ เราพร้อมส่งมอบบรรจุภัณฑ์ที่ตอบโจทย์ทุกความต้องการ ตั้งแต่ออกแบบจนถึงการผลิต ด้วยมาตรฐานสากลที่คุณไว้วางใจได้
-              </p>
-              <Link
-                to="/About"
-                className="self-start inline-flex items-center gap-2 bg-[#0D5C44] text-white text-xs md:text-sm font-bold px-7 py-3 rounded-full no-underline hover:bg-[#0A3828] hover:-translate-y-0.5 transition-all shadow-md shadow-[#0D5C44]/20"
-              >
-                เกี่ยวกับเรา <span>→</span>
-              </Link>
-            </div>
+            <span className="text-[10px] font-bold text-[#5AACAC] tracking-[3px] uppercase">ABOUT US</span>
           </div>
+
+          {/* Slogan — large, centered */}
+          <h2 className="text-center font-extrabold text-[#1C2B25] leading-tight mb-14">
+            <span className="block text-4xl md:text-6xl mb-2">งานพิมพ์คุณภาพ</span>
+            <span className="block text-4xl md:text-6xl">
+              <span className="relative inline-block px-3">
+                <span className="relative z-10 text-[#0D5C44]">ราคายุติธรรม</span>
+                <span className="absolute inset-x-0 bottom-1.5 h-3.5 bg-[#7EC8C8]/25 rounded-sm -z-0" />
+              </span>
+              {" · "}
+              <span className="text-[#1C2B25]">ระยะเวลารวดเร็ว</span>
+            </span>
+          </h2>
+
+          {/* Stats row */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-0 mb-16">
+            {[
+              { num: "20+",    label: "ปีประสบการณ์" },
+              { num: "5,000+", label: "ลูกค้าที่ไว้ใจ" },
+              { num: "100%",   label: "รับประกันคุณภาพ" },
+            ].map((stat, i, arr) => (
+              <div key={i} className="flex items-center">
+                <div className="text-center px-8 py-4">
+                  <div className="text-3xl md:text-4xl font-extrabold text-[#0D5C44] leading-none mb-1">{stat.num}</div>
+                  <div className="text-xs text-gray-500 font-medium tracking-wide">{stat.label}</div>
+                </div>
+                {i < arr.length - 1 && <div className="hidden sm:block w-px h-10 bg-gray-200" />}
+              </div>
+            ))}
+          </div>
+
+          {/* Body text — two columns */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-14 items-start max-w-4xl mx-auto mb-10">
+            <p className="text-[#1C2B25] text-sm md:text-base leading-[1.95] font-['Sarabun']">
+              <span className="font-bold text-[#0D5C44]">บจก.อุดมโภคทรัพย์ แพ็คเก็จจิ้ง</span> มุ่งมั่นพัฒนางานพิมพ์อย่างต่อเนื่อง จากการนำความต้องการของลูกค้าและตลาดมาปรับปรุง เพื่อเพิ่มประสิทธิภาพงานพิมพ์ให้สามารถตอบสนองความต้องการของลูกค้าให้ครอบคลุมทุกกลุ่มเป้าหมาย
+            </p>
+            <p className="text-gray-500 text-sm md:text-base leading-[1.95] font-['Sarabun']">
+              ด้วยเครื่องจักรที่ทันสมัยและทีมงานผู้เชี่ยวชาญ เราพร้อมส่งมอบบรรจุภัณฑ์ที่ตอบโจทย์ทุกความต้องการ ตั้งแต่ออกแบบจนถึงการผลิต ด้วยมาตรฐานสากลที่คุณไว้วางใจได้
+            </p>
+          </div>
+
+          {/* CTA centered */}
+          <div className="flex justify-center">
+            <Link
+              to="/About"
+              className="inline-flex items-center gap-2 bg-[#0D5C44] text-white text-xs md:text-sm font-bold px-8 py-3.5 rounded-full no-underline hover:bg-[#0A3828] hover:-translate-y-0.5 transition-all shadow-lg shadow-[#0D5C44]/20"
+            >
+              เกี่ยวกับเรา <span>→</span>
+            </Link>
+          </div>
+
         </div>
       </section>
 

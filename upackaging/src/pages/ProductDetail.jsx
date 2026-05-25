@@ -1,11 +1,90 @@
 import { useState } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useCart } from "../store/cartStore";
 
 const PRODUCTS = {
+  // ─────────────────────────────────────────────────────────
+  // สินค้าพร้อมส่ง (Ready Products)
+  // ─────────────────────────────────────────────────────────
+  "rice-box-s": {
+    name: "กล่องข้าว ขนาด S",
+    cat: "สินค้าพร้อมส่ง",
+    icon: "🍱",
+    price: "฿185 / แพ็ค",
+    moq: "1 แพ็ค",
+    lead: "พร้อมจัดส่ง",
+    desc: "กล่องข้าวกระดาษสีขาว Food Grade ปลอดภัย ได้มาตรฐาน สะอาด ไร้สารก่อมะเร็ง เหมาะสำหรับเดลิเวอรีและอาหารจานด่วนประเภทต่างๆ",
+    specs: [
+      { label: "ขนาด", value: "15×10×6 ซม." },
+      { label: "จำนวนบรรจุ", value: "50 ใบ/แพ็ค" },
+      { label: "ราคาเฉลี่ยต่อหน่วย", value: "3.7 บาท/ใบ" },
+      { label: "วัสดุ", value: "กระดาษ Food Grade" }
+    ],
+    options: ["ไม่มีหน้าต่าง", "มีหน้าต่าง PET"],
+    related: ["rice-box-m", "cake-box-1lb"]
+  },
+  "rice-box-m": {
+    name: "กล่องข้าว ขนาด M",
+    cat: "สินค้าพร้อมส่ง",
+    icon: "🍱",
+    price: "฿225 / แพ็ค",
+    moq: "1 แพ็ค",
+    lead: "พร้อมจัดส่ง",
+    desc: "กล่องข้าวมาตรฐานสำหรับอาหารตามสั่ง ข้าวราดแกง ไซส์ยอดนิยม แข็งแรง ไม่ยุ่ยง่าย บรรจุอาหารร้อนได้ดี",
+    specs: [
+      { label: "ขนาด", value: "18×13×7 ซม." },
+      { label: "จำนวนบรรจุ", value: "50 ใบ/แพ็ค" },
+      { label: "ราคาเฉลี่ยต่อหน่วย", value: "4.5 บาท/ใบ" },
+      { label: "วัสดุ", value: "กระดาษ Food Grade" }
+    ],
+    options: ["ไม่มีหน้าต่าง", "มีหน้าต่าง PET"],
+    related: ["rice-box-s", "cake-box-1lb"]
+  },
+  "cake-box-1lb": {
+    name: "กล่องเค้ก 1 ปอนด์",
+    cat: "สินค้าพร้อมส่ง",
+    icon: "🎂",
+    price: "฿320 / แพ็ค",
+    moq: "1 แพ็ค",
+    lead: "พร้อมจัดส่ง",
+    desc: "กล่องเค้กพร้อมหน้าต่างพลาสติกใส PET มองเห็นด้านในชัดเจน กระดาษหนาพิเศษ รับน้ำหนักฐานเค้กได้เป็นอย่างดี",
+    specs: [
+      { label: "ขนาด", value: "26×26×15 ซม." },
+      { label: "จำนวนบรรจุ", value: "20 ใบ/แพ็ค" },
+      { label: "ราคาเฉลี่ยต่อหน่วย", value: "16 บาท/ใบ" },
+      { label: "วัสดุ", value: "กระดาษอาร์ตการ์ดอาหาร + หน้าต่าง PET" }
+    ],
+    options: ["มีหน้าต่าง PET"],
+    related: ["rice-box-m", "cup-carrier-2"]
+  },
+  "cup-carrier-2": {
+    name: "ถาดถ้วย 2 ช่อง",
+    cat: "สินค้าพร้อมส่ง",
+    icon: "🥤",
+    price: "฿290 / แพ็ค",
+    moq: "1 แพ็ค",
+    lead: "พร้อมจัดส่ง",
+    desc: "ถาดถือแก้วน้ำ 2 ช่อง ออกแบบมาให้ล็อกแก้วแน่นหนา ไม่ล้มระหว่างเคลื่อนย้าย ช่วยเพิ่มความสะดวกให้ลูกค้าสั่ง Delivery",
+    specs: [
+      { label: "ขนาดแก้วที่รองรับ", value: "แก้ว ∅6–9 ซม." },
+      { label: "จำนวนบรรจุ", value: "100 ใบ/แพ็ค" },
+      { label: "ราคาเฉลี่ยต่อหน่วย", value: "2.9 บาท/ใบ" },
+      { label: "วัสดุ", value: "กระดาษรีไซเคิลหนาพิเศษ" }
+    ],
+    options: ["สีขาว", "สีน้ำตาล Kraft"],
+    related: ["rice-box-s", "cake-box-1lb"]
+  },
+
+  // ─────────────────────────────────────────────────────────
+  // สินค้าสั่งผลิตตามสั่ง (Custom Service Products)
+  // ─────────────────────────────────────────────────────────
   "box-cosmetic": {
-    name: "กล่องเครื่องสำอาง", cat: "กล่อง", icon: "📦",
-    price: "เริ่มต้น ฿8 / ใบ", moq: "500 ใบ", lead: "7–10 วันทำการ",
+    name: "กล่องเครื่องสำอาง",
+    cat: "กล่องบรรจุภัณฑ์",
+    icon: "📦",
+    price: "เริ่มต้น ฿8 / ใบ",
+    moq: "500 ใบ",
+    lead: "7–10 วันทำการ",
     desc: "กล่องพิมพ์ 4 สีออฟเซ็ท บนกระดาษอาร์ตการ์ดคุณภาพสูง เคลือบ UV เงาหรือด้านได้ตามต้องการ เหมาะสำหรับแบรนด์เครื่องสำอาง สกินแคร์ และผลิตภัณฑ์พรีเมียม",
     specs: [
       { label: "วัสดุ", value: "อาร์ตการ์ด 350 แกรม" },
@@ -16,11 +95,15 @@ const PRODUCTS = {
       { label: "ระยะเวลาผลิต", value: "7–10 วันทำการ" },
     ],
     options: ["เคลือบ UV เงา", "เคลือบ UV ด้าน", "ฟอยล์ทอง", "ฟอยล์เงิน", "ปั๊มนูน"],
-    related: ["box-food", "box-shipping", "bag-paper"],
+    related: ["box-food", "box-shipping"],
   },
   "box-food": {
-    name: "กล่องอาหาร", cat: "กล่อง", icon: "🍱",
-    price: "เริ่มต้น ฿5 / ใบ", moq: "1,000 ใบ", lead: "5–7 วันทำการ",
+    name: "กล่องอาหาร",
+    cat: "กล่องบรรจุภัณฑ์",
+    icon: "🍱",
+    price: "เริ่มต้น ฿5 / ใบ",
+    moq: "1,000 ใบ",
+    lead: "5–7 วันทำการ",
     desc: "กล่องกระดาษ food grade ปลอดภัย รับรองมาตรฐาน FDA พิมพ์สีสดใส เหมาะสำหรับร้านอาหาร เบเกอรี่ และธุรกิจ F&B",
     specs: [
       { label: "วัสดุ", value: "กระดาษ Food Grade" },
@@ -30,11 +113,15 @@ const PRODUCTS = {
       { label: "ระยะเวลาผลิต", value: "5–7 วันทำการ" },
     ],
     options: ["ขนาด S", "ขนาด M", "ขนาด L", "มีหน้าต่าง PET"],
-    related: ["box-cosmetic", "box-shipping", "brochure-tri"],
+    related: ["box-cosmetic", "box-shipping"],
   },
   "box-shipping": {
-    name: "กล่องไปรษณีย์", cat: "กล่อง", icon: "📫",
-    price: "เริ่มต้น ฿12 / ใบ", moq: "200 ใบ", lead: "3–5 วันทำการ",
+    name: "กล่องไปรษณีย์",
+    cat: "กล่องลูกฟูก",
+    icon: "📫",
+    price: "เริ่มต้น ฿12 / ใบ",
+    moq: "200 ใบ",
+    lead: "3–5 วันทำการ",
     desc: "กล่องลูกฟูก 3 และ 5 ชั้น แข็งแรงทนทาน รับน้ำหนักได้ดี พิมพ์โลโก้ด้านนอกได้ เหมาะสำหรับธุรกิจ e-Commerce และส่งสินค้าทางไปรษณีย์",
     specs: [
       { label: "วัสดุ", value: "ลูกฟูก 3 ชั้น / 5 ชั้น" },
@@ -43,7 +130,7 @@ const PRODUCTS = {
       { label: "ระยะเวลาผลิต", value: "3–5 วันทำการ" },
     ],
     options: ["ลูกฟูก 3 ชั้น", "ลูกฟูก 5 ชั้น", "พิมพ์โลโก้", "ไม่พิมพ์"],
-    related: ["box-cosmetic", "sticker-roll", "bag-paper"],
+    related: ["box-cosmetic"],
   },
 };
 
@@ -55,9 +142,27 @@ export default function ProductDetail() {
   const [qty, setQty] = useState("");
   const [added, setAdded] = useState(false);
 
+  // ฟังก์ชันตัวใหม่: ช่วยดึงและสกัดค่าตัวเลขจาก String ออกมาเพื่อใช้คำนวณราคาจริงในระบบตระกร้าสินค้า
+  function getNumericPrice() {
+    if (!p) return 0;
+    if (typeof p.price === "number") return p.price;
+    const match = p.price.match(/\d+/); // สกัดเอาเฉพาะตัวเลข เช่น จาก "฿185 / แพ็ค" ดึงออกมาเป็น 185
+    return match ? parseInt(match[0], 10) : 0;
+  }
+
   function handleAddToCart() {
     if (!p) return;
-    addItem({ id, icon: p.icon, name: p.name, price: p.price, moq: p.moq }, parseInt(qty) || 1, selectedOptions);
+    addItem(
+      { 
+        id, 
+        icon: p.icon, 
+        name: p.name, 
+        price: getNumericPrice(), // เรียกใช้ตัวแปลงราคาเป็นจำนวนจริง ป้องกันระบบตระกร้าล่มตัวเดิม
+        moq: p.moq 
+      }, 
+      parseInt(qty) || 1, 
+      selectedOptions
+    );
     setAdded(true);
     setTimeout(() => setAdded(false), 2000);
   }
@@ -133,27 +238,29 @@ export default function ProductDetail() {
           </div>
 
           {/* Options Selectors */}
-          <div className="mb-6">
-            <div className="text-xs font-bold text-gray-700 mb-2.5">เลือกออปชัน / เทคนิคพิเศษ</div>
-            <div className="flex flex-wrap gap-2">
-              {p.options.map((opt) => {
-                const isSelected = selectedOptions.includes(opt);
-                return (
-                  <button
-                    key={opt}
-                    onClick={() => toggleOption(opt)}
-                    className={`text-xs px-3.5 py-1.5 rounded-full border transition-all ${
-                      isSelected 
-                        ? "border-[#0D5C44] bg-[#E1F5EE] text-[#085041] font-semibold" 
-                        : "border-gray-200 bg-white text-gray-600 hover:border-gray-300"
-                    }`}
-                  >
-                    {opt}
-                  </button>
-                );
-              })}
+          {p.options && p.options.length > 0 && (
+            <div className="mb-6">
+              <div className="text-xs font-bold text-gray-700 mb-2.5">เลือกออปชัน / เทคนิคพิเศษ</div>
+              <div className="flex flex-wrap gap-2">
+                {p.options.map((opt) => {
+                  const isSelected = selectedOptions.includes(opt);
+                  return (
+                    <button
+                      key={opt}
+                      onClick={() => toggleOption(opt)}
+                      className={`text-xs px-3.5 py-1.5 rounded-full border transition-all ${
+                        isSelected 
+                          ? "border-[#0D5C44] bg-[#E1F5EE] text-[#085041] font-semibold" 
+                          : "border-gray-200 bg-white text-gray-600 hover:border-gray-300"
+                      }`}
+                    >
+                      {opt}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Interactive Form Actions */}
           <div className="bg-gray-50 rounded-xl p-4 border border-gray-100 mb-4">
