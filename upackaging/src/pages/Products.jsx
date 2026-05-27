@@ -77,7 +77,7 @@ const serviceCategories = [
     moq: "500 ใบ",
     accent: "#1D9E75",
     bg: "#E1F5EE",
-    portfolioUrl: "/portfolio?cat=box",
+    portfolioUrl: "/portfolio?cat=กล่องบรรจุภัณฑ์",
     products: [{ id: "box-cosmetic", name: "กล่องเครื่องสำอาง", price: "เริ่มต้น ฿8/ใบ" }],
   },
   {
@@ -88,7 +88,7 @@ const serviceCategories = [
     moq: "500 ใบ",
     accent: "#B8860B",
     bg: "#FFF9E6",
-    portfolioUrl: "/portfolio?cat=metallic",
+    portfolioUrl: "/portfolio?cat=เมทัลลิค (ฟอยล์)",
     products: [{ id: "metallic-box", name: "กล่องเมทัลลิคพรีเมียม", price: "ขอ Quote" }],
   },
   {
@@ -99,7 +99,7 @@ const serviceCategories = [
     moq: "300 ใบ",
     accent: "#3A86C8",
     bg: "#EBF3FA",
-    portfolioUrl: "/portfolio?cat=offset-corrugated",
+    portfolioUrl: "/portfolio?cat=ออฟเซ็ทประกบลูกฟูก",
     products: [{ id: "offset-corrugated-box", name: "กล่องโครงสร้างแข็งแรงพิเศษ", price: "เริ่มต้น ฿18/ใบ" }],
   },
   {
@@ -110,7 +110,7 @@ const serviceCategories = [
     moq: "200 ใบ",
     accent: "#5DCAA5",
     bg: "#E5F7F2",
-    portfolioUrl: "/portfolio?cat=corrugated",
+    portfolioUrl: "/portfolio?cat=กล่องลูกฟูก",
     products: [{ id: "corrugated", name: "กล่องไปรษณีย์ลูกฟูก", price: "เริ่มต้น ฿12/ใบ" }],
   },
   {
@@ -121,7 +121,7 @@ const serviceCategories = [
     moq: "500 ดวง",
     accent: "#E07A5F",
     bg: "#FBF0ED",
-    portfolioUrl: "/portfolio?cat=sticker",
+    portfolioUrl: "/portfolio?cat=สติ๊กเกอร์ม้วน/แผ่น",
     products: [{ id: "sticker-roll", name: "สติ๊กเกอร์ม้วน/แผ่นไดคัท", price: "เริ่มต้น ฿0.5/ดวง" }],
   },
   {
@@ -132,7 +132,7 @@ const serviceCategories = [
     moq: "1,000 ใบ",
     accent: "#8338EC",
     bg: "#F3E9FA",
-    portfolioUrl: "/portfolio?cat=label",
+    portfolioUrl: "/portfolio?cat=ฉลากสินค้า",
     products: [{ id: "product-label", name: "ฉลากสลีปและสายคาดกล่อง", price: "เริ่มต้น ฿2/ใบ" }],
   },
   {
@@ -143,7 +143,7 @@ const serviceCategories = [
     moq: "1,000 ใบ",
     accent: "#FF006E",
     bg: "#FFE6F1",
-    portfolioUrl: "/portfolio?cat=hangtag",
+    portfolioUrl: "/portfolio?cat=Hangtag",
     products: [{ id: "hangtag-brand", name: "ป้ายแท็กสินค้าเจาะรู", price: "เริ่มต้น ฿1.5/ใบ" }],
   },
   {
@@ -154,7 +154,7 @@ const serviceCategories = [
     moq: "500 ใบ",
     accent: "#FB5607",
     bg: "#FFF0E6",
-    portfolioUrl: "/portfolio?cat=brochure",
+    portfolioUrl: "/portfolio?cat=แผ่นพับ/โบรชัวร์",
     products: [{ id: "brochure-menu", name: "แผ่นพับ / ใบปลิวโฆษณา", price: "เริ่มต้น ฿3/ใบ" }],
   },
   {
@@ -165,7 +165,7 @@ const serviceCategories = [
     moq: "2,000 ใบ",
     accent: "#FFB703",
     bg: "#FFFDF0",
-    portfolioUrl: "/portfolio?cat=blister",
+    portfolioUrl: "/portfolio?cat=Blister",
     products: [{ id: "blister-card", name: "กระดาษการ์ดรองบลิสเตอร์", price: "ขอ Quote" }],
   },
   {
@@ -176,7 +176,7 @@ const serviceCategories = [
     moq: "100 เล่ม",
     accent: "#0077B6",
     bg: "#E6F4FA",
-    portfolioUrl: "/portfolio?cat=catalog",
+    portfolioUrl: "/portfolio?cat=แค็ตตาล็อก",
     products: [{ id: "catalog-book", name: "แค็ตตาล็อกสินค้าและวารสาร", price: "เริ่มต้น ฿45/เล่ม" }],
   },
   {
@@ -187,7 +187,7 @@ const serviceCategories = [
     moq: "500 ใบ",
     accent: "#70E000",
     bg: "#F2FCE6",
-    portfolioUrl: "/portfolio?cat=paper-bag",
+    portfolioUrl: "/portfolio?cat=ถุงกระดาษ",
     products: [{ id: "paper-bag-luxury", name: "ถุงกระดาษหูหิ้วพิมพ์โลโก้", price: "เริ่มต้น ฿15/ใบ" }],
   },
   {
@@ -198,7 +198,7 @@ const serviceCategories = [
     moq: "200 ชุด",
     accent: "#2F3E46",
     bg: "#F0F2F2",
-    portfolioUrl: "/portfolio?cat=calendar",
+    portfolioUrl: "/portfolio?cat=ปฏิทินและอื่นๆ",
     products: [{ id: "calendar-desktop", name: "ปฏิทินตั้งโต๊ะ / งานพิมพ์พิเศษ", price: "ขอ Quote" }],
   },
 ];

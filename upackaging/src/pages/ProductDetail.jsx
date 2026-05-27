@@ -134,6 +134,22 @@ const PRODUCTS = {
   },
 };
 
+// Map product category → portfolio filter param (ตรงกับ categories ใน Portfolio.jsx)
+// สินค้าพร้อมส่ง (cat ที่ไม่อยู่ใน map) → ไม่แสดงปุ่ม
+const PORTFOLIO_CAT_MAP = {
+  "กล่องบรรจุภัณฑ์":     "กล่อง",
+  "กล่องลูกฟูก":         "กล่อง",
+  "เมทัลลิค":            "กล่อง",
+  "ออฟเซ็ทประกบลูกฟูก":  "กล่อง",
+  "สติ๊กเกอร์":          "สติ๊กเกอร์",
+  "ฉลากสินค้า":          "สติ๊กเกอร์",
+  "ถุงกระดาษ":           "ถุงกระดาษ",
+  "แผ่นพับ":             "แผ่นพับ",
+  "Hangtag":             "แผ่นพับ",
+  "Blister":             "แผ่นพับ",
+  "แค็ตตาล็อก":          "แผ่นพับ",
+};
+
 export default function ProductDetail() {
   const { id } = useParams();
   const p = PRODUCTS[id];
@@ -236,6 +252,16 @@ export default function ProductDetail() {
               </div>
             ))}
           </div>
+
+          {/* ปุ่มดูผลงาน — แสดงเฉพาะสินค้าที่รับพิมพ์ตามสั่ง */}
+          {PORTFOLIO_CAT_MAP[p.cat] && (
+            <Link
+              to={`/portfolio?cat=${encodeURIComponent(PORTFOLIO_CAT_MAP[p.cat])}`}
+              className="flex items-center justify-center gap-2 w-full mb-5 py-2.5 rounded-xl text-xs font-semibold border border-[#1D9E75] text-[#0D5C44] bg-[#F0FBF7] hover:bg-[#E1F5EE] transition-colors no-underline"
+            >
+              🖼️ ดูรูปผลงานเพิ่มเติม
+            </Link>
+          )}
 
           {/* Options Selectors */}
           {p.options && p.options.length > 0 && (
